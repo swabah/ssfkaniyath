@@ -2,11 +2,13 @@ import { addDoc, collection, onSnapshot, orderBy, query } from 'firebase/firesto
 import React, { useEffect, useState } from 'react'
 import { auth, db } from '../../Firebase/Config';
 import { AiOutlineLoading } from 'react-icons/ai';
+import { FcCancel, FcCheckmark } from "react-icons/fc";
 import { MdMyLocation } from "react-icons/md";
 import datesfriuts from '../assets/images/datesfriuts.jpg'
 import { BsArrowDownCircle } from "react-icons/bs";
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import ParticipateModal from '../assets/Challenges/ParticipateModal';
+import { FaCircleArrowRight } from "react-icons/fa6";
 
 function Challenge() {
     const [loading, setLoading] = useState(false);
@@ -15,6 +17,7 @@ function Challenge() {
     const [Package, setPackage] = useState('');
     const [Contact, setContact] = useState('');
     const [Address, setAddress] = useState('');
+    const [isPaid, setIsPaid] = useState(false);
     const [Location, setLocation] = useState({});
     const [Participates, setParticipates] = useState([]);
     const [fetchLoading, setFetchLoading] = useState(true);
@@ -59,17 +62,19 @@ function Challenge() {
                 Contact,
                 Address,
                 Location,
+                isPaid,
                 registerDate: new Date(),
             });
 
             setIsRegisterCompleted(true);
             setTimeout(() => {
                 setIsRegisterCompleted(false);
-                setAddress('')
-                setFullName('')
-                setPackage('')
-                setContact('')
-                setLocation({})
+                setAddress('');
+                setFullName('');
+                setPackage('');
+                setContact('');
+                setLocation({});
+                setIsPaid(false);
             }, 1000);
         } catch (error) {
             alert(error.message);
@@ -78,12 +83,13 @@ function Challenge() {
         }
     };
 
+
     useEffect(() => {
         const fetchData = async () => {
             try {
                 const userCollectionRef = collection(db, 'challengeParticipates');
                 const unsubscribe = onSnapshot(
-                    query(userCollectionRef, orderBy('Token', 'asc')), // or 'desc' based on your requirement
+                    query(userCollectionRef, orderBy('Token', 'desc')), // or 'desc' based on your requirement
                     (querySnapshot) => {
                         const Participates = querySnapshot.docs.map((doc) => ({
                             id: doc.id,
@@ -141,11 +147,17 @@ function Challenge() {
                     {Location.latitude && Location.longitude && (
                         <p className='w-full px-6 py-2 bg-gray-50'>" {Location.latitude} {Location.longitude} "</p>
                     )}
-                    <div className='flex flex-col items-center justify-between w-full gap-5 md:flex-row'>
-                        <span onClick={getLocation} className='flex items-center justify-start w-full px-4 py-2 md:text-lg bg-gray-100 rounded-lg cursor-pointer md:w-auto gap-x-4'>
-                            <MdMyLocation className='text-xl md:text-2xl' />
-                            <p>Use precise location</p>
-                        </span>
+                    <div className='flex flex-col items-center justify-between w-full gap-5 lg:flex-row'>
+                        <div className='flex flex-col md:flex-row gap-4 items-center  justify-start w-full lg:w-auto'>
+                            <span onClick={getLocation} className='flex items-center justify-start w-full px-4 py-2 md:text-lg bg-gray-100 rounded-lg cursor-pointer lg:w-auto gap-x-4'>
+                                <MdMyLocation className='text-xl md:text-2xl' />
+                                <p>Use precise location</p>
+                            </span>
+                            <div className='flex items-center justify-between lg:justify-start gap-x-4 w-full lg:w-auto px-4 py-2 md:text-lg bg-gray-100 rounded-lg '>
+                                <p>Paid Cash</p>
+                                <input type='checkbox' checked={isPaid} onChange={(e) => setIsPaid(e.target.checked)} />
+                            </div>
+                        </div>
                         {loading ? (
                             <AiOutlineLoading className='w-auto animate-spin text-[#39b54a] text-2xl mr-2' />
                         ) : isRegisterCompleted ? (
@@ -154,8 +166,7 @@ function Challenge() {
                             <button
                                 disabled={submitDisabled}
                                 type='submit'
-                                className={`bg-[#39b54a] py-2 px-4 w-full md:w-auto  text-white font-medium rounded-md uppercase hover:bg-[#4caf50] transition duration-300 ${submitDisabled ? 'cursor-not-allowed opacity-50' : ''
-                                    }`}
+                                className={`bg-[#39b54a] py-2 px-4 w-full lg:w-auto  text-white font-medium rounded-md uppercase hover:bg-[#4caf50] transition duration-300 ${submitDisabled ? 'cursor-not-allowed opacity-50' : ''}`}
                             >
                                 Register Challenge
                             </button>
@@ -164,15 +175,22 @@ function Challenge() {
                 </form>
             </div>
             <hr className='my-8' />
-            {(Participates.length > 0 && (auth?.currentUser?.email === 'ahmedswabah922@gmail.com')) && (
+            {(Participates.length > 0 && (auth?.currentUser?.email === 'ahmedswabah922@gmail.com' || 'kmuhammedktr@gmail.com')) && (
                 <div class="pb-14 lg:pb-20 p-7 md:px-20 lg:px-32 xl:px-44  flex flex-col gap-y-5">
-                    <p className='font-medium text-2xl items-center text-[#071a2b]'>All Participates <span className='text-lg'> - {Participates.length} </span></p>
+                    <Link to='/challenge/admin'>
+                        <div className='w-full lg:w-auto p-2 px-6 rounded font-medium lg:text-xl bg-[#071a2b] flex justify-between items-center text-[#d3e3fd]'>
+                            <p> Challenge Admin </p>
+                            <FaCircleArrowRight className='text-lg lg:text-2xl' />
+                        </div>
+                    </Link>
+                    <p className='pt-5 font-medium text-2xl items-center text-[#071a2b]'>All Participates <span className='text-lg'> - {Participates.length} </span></p>
                     <div class=" overflow-x-auto">
                         <div class="min-w-full inline-block align-middle">
                             <div class="border rounded-lg shadow overflow-hidden  ">
                                 <table class="min-w-full divide-y divide-gray-200 ">
                                     <thead class=" ">
                                         <tr>
+                                            <th scope="col" class="px-6 py-3 text-start text-xs lg:text-sm font-medium  uppercase ">Payment</th>
                                             <th scope="col" class="px-6 py-3 text-start text-xs lg:text-sm font-medium  uppercase ">Token</th>
                                             <th scope="col" class="px-6 py-3 text-start text-xs lg:text-sm font-medium  uppercase ">Package</th>
                                             <th scope="col" class="px-6 py-3 text-start text-xs lg:text-sm font-medium  uppercase ">Name</th>
@@ -193,12 +211,13 @@ function Challenge() {
                                         ) : <>
                                             {Participates.map((par) => (
                                                 <tr>
+                                                    <td class="px-6 py-4 whitespace-nowrap font-medium text-[#071a2b] capitalize ">{par?.isPaid ? (<FcCheckmark />) : (<FcCancel />)}</td>
                                                     <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-[#071a2b] capitalize ">{par.Token}</td>
                                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-[#071a2b] capitalize ">{par.Package}</td>
                                                     <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-[#071a2b] capitalize ">{par.fullName}</td>
                                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-[#071a2b] capitalize ">{par.Contact}</td>
                                                     <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                                        <button onClick={() => showPartiModal(par.Token)} type="button" class="inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent text-blue-600 hover:text-blue-800 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-500 dark:hover:text-blue-400 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">View</button>
+                                                        <button onClick={() => showPartiModal(par.Token)} type="button" class="inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent text-[#071a2b] hover:text-blue-800 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-500 dark:hover:text-blue-400 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">View</button>
                                                     </td>
                                                 </tr>
                                             ))}

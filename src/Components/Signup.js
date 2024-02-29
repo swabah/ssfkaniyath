@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { auth, db } from '../Firebase/Config';
 import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
-import { addDoc, collection, doc, setDoc } from 'firebase/firestore';
+import { addDoc, collection } from 'firebase/firestore';
 import samvidhanyatra from './assets/images/samvidhanyatra.jpg'
 import { AiOutlineLoading } from 'react-icons/ai';
 import { BsArrowDownCircle } from 'react-icons/bs';

@@ -30,6 +30,7 @@ function ParticipateModal({ onClose, par, closePath }) {
                 <p className='w-auto px-5 py-2 border-r border-[#d3e3fd] border-0 rounded-l-xl bg-[#031525] md:text-lg font-medium text-[#d3e3fdb3]'>#{par.Token}</p>
                 <p className='w-auto px-5 py-2  border-l border-[#d3e3fd] border-0 rounded-r-xl bg-[#031525] md:text-lg font-medium text-[#d3e3fdb3]'>{par.Package}</p>
               </div>
+              
               <p className='capitalize text-base lg:text-lg'>{par.Address}</p>
             </div>
             <div onClick={onClose}>

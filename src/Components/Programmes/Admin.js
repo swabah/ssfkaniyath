@@ -3,8 +3,10 @@ import React, { useEffect, useState } from 'react'
 import { db } from '../../Firebase/Config';
 import datesfriuts from '../assets/images/datesfriuts.jpg'
 import { BsArrowDownCircle } from "react-icons/bs";
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import ParticipateModal from '../assets/Challenges/ParticipateModal';
+import { FcCancel, FcCheckmark } from 'react-icons/fc';
+import { FaCircleArrowLeft } from 'react-icons/fa6';
 
 function Admin() {
     const [Participates, setParticipates] = useState([]);
@@ -33,7 +35,7 @@ function Admin() {
             try {
                 const userCollectionRef = collection(db, 'challengeParticipates');
                 const unsubscribe = onSnapshot(
-                    query(userCollectionRef, orderBy('Token', 'asc')), // or 'desc' based on your requirement
+                    query(userCollectionRef, orderBy('Token', 'desc')), // or 'desc' based on your requirement
                     (querySnapshot) => {
                         const Participates = querySnapshot.docs.map((doc) => ({
                             id: doc.id,
@@ -43,16 +45,16 @@ function Admin() {
                         setFetchLoading(false);
                     }
                 );
-    
+
                 return unsubscribe;
             } catch (error) {
                 alert(error);
             }
         };
-    
+
         fetchData();
     }, []);
-    
+
 
 
     return (
@@ -64,6 +66,12 @@ function Admin() {
                 </div>
                 <div className='absolute inset-0 w-full h-full bg-[#071a2b] opacity-50'></div>
             </div>
+            <Link to='/challenge/Dates'>
+                <div className='w-full lg:w-auto gap-x-4 p-2 px-7 md:px-20 lg:px-32 xl:px-44 font-medium lg:text-xl bg-[#071a2b] flex justify-start items-center text-[#d3e3fd]'>
+                    <FaCircleArrowLeft className='text-lg lg:text-2xl' />
+                    <p> Challenge Registration </p>
+                </div>
+            </Link>
             <div id='admin' className='grid grid-cols-1 items-start lg:grid-cols-3 py-14 lg:py-20 p-7 md:px-20 lg:px-32 xl:px-44 gap-5'>
                 {Participates.filter((par) => par.Package === '2 kg').length > 0 && (
                     <div className=" flex flex-col gap-y-5">
@@ -77,6 +85,7 @@ function Admin() {
                                     <table className="min-w-full divide-y divide-gray-200 ">
                                         <thead className=" ">
                                             <tr>
+                                                <th scope="col" className="px-6 py-3 text-start text-xs lg:text-sm font-medium  uppercase ">Payment</th>
                                                 <th scope="col" className="px-6 py-3 text-start text-xs lg:text-sm font-medium  uppercase ">Token</th>
                                                 <th scope="col" className="px-6 py-3 text-start text-xs lg:text-sm font-medium  uppercase ">Name</th>
                                                 <th scope="col" className="px-6 py-3 text-start text-xs lg:text-sm font-medium  uppercase ">View</th>
@@ -88,10 +97,12 @@ function Admin() {
                                                     <tr><td className='w-full h-12 bg-gray-100 animate-pulse'></td><td className='w-full h-12 bg-gray-100 animate-pulse'></td><td className='w-full h-12 bg-gray-100 animate-pulse'></td><td className='w-full h-12 bg-gray-100 animate-pulse'></td><td className='w-full h-12 bg-gray-100 animate-pulse'></td></tr>
                                                     <tr><td className='w-full h-12 bg-gray-100 animate-pulse'></td><td className='w-full h-12 bg-gray-100 animate-pulse'></td><td className='w-full h-12 bg-gray-100 animate-pulse'></td><td className='w-full h-12 bg-gray-100 animate-pulse'></td><td className='w-full h-12 bg-gray-100 animate-pulse'></td></tr>
                                                     <tr><td className='w-full h-12 bg-gray-100 animate-pulse'></td><td className='w-full h-12 bg-gray-100 animate-pulse'></td><td className='w-full h-12 bg-gray-100 animate-pulse'></td><td className='w-full h-12 bg-gray-100 animate-pulse'></td><td className='w-full h-12 bg-gray-100 animate-pulse'></td></tr>
+                                                    <tr><td className='w-full h-12 bg-gray-100 animate-pulse'></td><td className='w-full h-12 bg-gray-100 animate-pulse'></td><td className='w-full h-12 bg-gray-100 animate-pulse'></td><td className='w-full h-12 bg-gray-100 animate-pulse'></td><td className='w-full h-12 bg-gray-100 animate-pulse'></td></tr>
                                                 </>
                                             ) : <>
                                                 {Participates.filter((par) => par.Package === '2 kg').map((par) => (
                                                     <tr>
+                                                        <td class="px-6 py-4 whitespace-nowrap font-medium text-[#071a2b] capitalize ">{par?.isPaid ? (<FcCheckmark />) : (<FcCancel />)}</td>
                                                         <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-[#071a2b] capitalize ">{par.Token}</td>
                                                         <td className="px-6 py-4 whitespace-nowrap text-sm text-[#071a2b] capitalize ">{par.Contact}</td>
                                                         <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
@@ -119,6 +130,7 @@ function Admin() {
                                     <table className="min-w-full divide-y divide-gray-200 ">
                                         <thead className=" ">
                                             <tr>
+                                                <th scope="col" className="px-6 py-3 text-start text-xs lg:text-sm font-medium  uppercase ">Payment</th>
                                                 <th scope="col" className="px-6 py-3 text-start text-xs lg:text-sm font-medium  uppercase ">Token</th>
                                                 <th scope="col" className="px-6 py-3 text-start text-xs lg:text-sm font-medium  uppercase ">Name</th>
                                                 <th scope="col" className="px-6 py-3 text-start text-xs lg:text-sm font-medium  uppercase ">View</th>
@@ -130,10 +142,12 @@ function Admin() {
                                                     <tr><td className='w-full h-12 bg-gray-100 animate-pulse'></td><td className='w-full h-12 bg-gray-100 animate-pulse'></td><td className='w-full h-12 bg-gray-100 animate-pulse'></td><td className='w-full h-12 bg-gray-100 animate-pulse'></td><td className='w-full h-12 bg-gray-100 animate-pulse'></td></tr>
                                                     <tr><td className='w-full h-12 bg-gray-100 animate-pulse'></td><td className='w-full h-12 bg-gray-100 animate-pulse'></td><td className='w-full h-12 bg-gray-100 animate-pulse'></td><td className='w-full h-12 bg-gray-100 animate-pulse'></td><td className='w-full h-12 bg-gray-100 animate-pulse'></td></tr>
                                                     <tr><td className='w-full h-12 bg-gray-100 animate-pulse'></td><td className='w-full h-12 bg-gray-100 animate-pulse'></td><td className='w-full h-12 bg-gray-100 animate-pulse'></td><td className='w-full h-12 bg-gray-100 animate-pulse'></td><td className='w-full h-12 bg-gray-100 animate-pulse'></td></tr>
+                                                    <tr><td className='w-full h-12 bg-gray-100 animate-pulse'></td><td className='w-full h-12 bg-gray-100 animate-pulse'></td><td className='w-full h-12 bg-gray-100 animate-pulse'></td><td className='w-full h-12 bg-gray-100 animate-pulse'></td><td className='w-full h-12 bg-gray-100 animate-pulse'></td></tr>
                                                 </>
                                             ) : <>
                                                 {Participates.filter((par) => par.Package === '5 kg').map((par) => (
                                                     <tr>
+                                                        <td class="px-6 py-4 whitespace-nowrap font-medium text-[#071a2b] capitalize ">{par?.isPaid ? (<FcCheckmark />) : (<FcCancel />)}</td>
                                                         <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-[#071a2b] capitalize ">{par.Token}</td>
                                                         <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-[#071a2b] capitalize ">{par.fullName}</td>
                                                         <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
@@ -161,6 +175,7 @@ function Admin() {
                                     <table className="min-w-full divide-y divide-gray-200 ">
                                         <thead className=" ">
                                             <tr>
+                                                <th scope="col" className="px-6 py-3 text-start text-xs lg:text-sm font-medium  uppercase ">Payment</th>
                                                 <th scope="col" className="px-6 py-3 text-start text-xs lg:text-sm font-medium  uppercase ">Token</th>
                                                 <th scope="col" className="px-6 py-3 text-start text-xs lg:text-sm font-medium  uppercase ">Name</th>
                                                 <th scope="col" className="px-6 py-3 text-start text-xs lg:text-sm font-medium  uppercase ">View</th>
@@ -172,10 +187,12 @@ function Admin() {
                                                     <tr><td className='w-full h-12 bg-gray-100 animate-pulse'></td><td className='w-full h-12 bg-gray-100 animate-pulse'></td><td className='w-full h-12 bg-gray-100 animate-pulse'></td><td className='w-full h-12 bg-gray-100 animate-pulse'></td><td className='w-full h-12 bg-gray-100 animate-pulse'></td></tr>
                                                     <tr><td className='w-full h-12 bg-gray-100 animate-pulse'></td><td className='w-full h-12 bg-gray-100 animate-pulse'></td><td className='w-full h-12 bg-gray-100 animate-pulse'></td><td className='w-full h-12 bg-gray-100 animate-pulse'></td><td className='w-full h-12 bg-gray-100 animate-pulse'></td></tr>
                                                     <tr><td className='w-full h-12 bg-gray-100 animate-pulse'></td><td className='w-full h-12 bg-gray-100 animate-pulse'></td><td className='w-full h-12 bg-gray-100 animate-pulse'></td><td className='w-full h-12 bg-gray-100 animate-pulse'></td><td className='w-full h-12 bg-gray-100 animate-pulse'></td></tr>
+                                                    <tr><td className='w-full h-12 bg-gray-100 animate-pulse'></td><td className='w-full h-12 bg-gray-100 animate-pulse'></td><td className='w-full h-12 bg-gray-100 animate-pulse'></td><td className='w-full h-12 bg-gray-100 animate-pulse'></td><td className='w-full h-12 bg-gray-100 animate-pulse'></td></tr>
                                                 </>
                                             ) : <>
                                                 {Participates.filter((par) => par.Package === '10 kg').map((par) => (
                                                     <tr>
+                                                        <td class="px-6 py-4 whitespace-nowrap font-medium text-[#071a2b] capitalize ">{par?.isPaid ? (<FcCheckmark />) : (<FcCancel />)}</td>
                                                         <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-[#071a2b] capitalize ">{par.Token}</td>
                                                         <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-[#071a2b] capitalize ">{par.fullName}</td>
                                                         <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
