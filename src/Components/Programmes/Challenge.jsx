@@ -164,7 +164,7 @@ function Challenge() {
                 </form>
             </div>
             <hr className='my-8' />
-            {(Participates.length > 0 && (auth.currentUser.email === 'ahmedswabah922@gmail.com')) && (
+            {(Participates.length > 0 && (auth?.currentUser?.email === 'ahmedswabah922@gmail.com')) && (
                 <div class="pb-14 lg:pb-20 p-7 md:px-20 lg:px-32 xl:px-44  flex flex-col gap-y-5">
                     <p className='font-medium text-2xl items-center text-[#071a2b]'>All Participates <span className='text-lg'> - {Participates.length} </span></p>
                     <div class=" overflow-x-auto">
