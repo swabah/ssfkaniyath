@@ -73,7 +73,7 @@ function Challenge() {
                 setFullName('');
                 setPackage('');
                 setContact('');
-                setLocation({});
+                setLocation(null);
                 setIsPaid(false);
             }, 1000);
         } catch (error) {

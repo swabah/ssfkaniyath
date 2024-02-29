@@ -2,14 +2,35 @@ import React from 'react';
 import { FiXCircle } from 'react-icons/fi';
 import { useNavigate } from 'react-router-dom';
 import { db } from '../../../Firebase/Config';
-import { deleteDoc, doc } from 'firebase/firestore';
+import { collection, deleteDoc, doc, getDocs, query, where } from 'firebase/firestore';
 
 function ParticipateModal({ onClose, par, closePath }) {
   const navigate = useNavigate();
 
-  const deleteParticipate = async (uid) => {
-    await deleteDoc(doc(db, "challengeParticipates", uid));
-    navigate(closePath);
+  const deleteParticipateWithoutUid = async (par) => {
+    try {
+      // Query for documents with the same combination of fields
+      const querySnapshot = await getDocs(
+        query(collection(db, 'challengeParticipates'),
+          where('fullName', '==', par.fullName),
+          where('Contact', '==', par.Contact),
+          where('Package', '==', par.Package)
+        )
+      );
+
+      // Check if any matching documents were found
+      if (!querySnapshot.empty) {
+        // Delete the first matching document
+        const documentToDelete = querySnapshot.docs[0];
+        await deleteDoc(documentToDelete.ref);
+        navigate(closePath);
+      } else {
+        // Handle the case where no matching documents were found
+        console.log('No matching documents found.');
+      }
+    } catch (error) {
+      console.error('Error deleting document:', error);
+    }
   };
 
   return (
@@ -30,13 +51,13 @@ function ParticipateModal({ onClose, par, closePath }) {
                 <p className='w-auto px-5 py-2 border-r border-[#d3e3fd] border-0 rounded-l-xl bg-[#031525] md:text-lg font-medium text-[#d3e3fdb3]'>#{par.Token}</p>
                 <p className='w-auto px-5 py-2  border-l border-[#d3e3fd] border-0 rounded-r-xl bg-[#031525] md:text-lg font-medium text-[#d3e3fdb3]'>{par.Package}</p>
               </div>
-              
+
               <p className='capitalize text-base lg:text-lg'>{par.Address}</p>
             </div>
             <div onClick={onClose}>
               <FiXCircle className='absolute text-2xl font-light cursor-pointer top-3 right-3 md:top-5 md:right-5 opacity-70' onClick={() => navigate(closePath)} />
             </div>
-            <p onClick={() => deleteParticipate(par.uid)} className='cursor-pointer pt-8 text-red-600'>Delete the Participate</p>
+            <p onClick={() => deleteParticipateWithoutUid(par)} className='cursor-pointer pt-8 text-red-600'>Delete the Participate</p>
           </div>
         </div>
       </div>
