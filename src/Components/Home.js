@@ -1,12 +1,12 @@
 import { useState, useEffect } from 'react';
-import { signOut } from 'firebase/auth';
 import { collection, getDocs } from 'firebase/firestore';
 import { Link, useNavigate } from 'react-router-dom';
-import { auth, db } from '../Firebase/Config';
-import {AiOutlineLoading} from 'react-icons/ai'
+import { db } from '../Firebase/Config';
+import { LuCode2 } from "react-icons/lu";
+import ssfview from './assets/images/ssfview.jpg'
+import dates from './assets/images/dates.png'
 
 function Home() {
-  const navigate = useNavigate();
   const [userList, setUserList] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -29,74 +29,128 @@ function Home() {
 
     fetchData();
 
-    if(!auth.currentUser){
-      navigate('/signin')
-    }
+    // if (!auth.currentUser) {
+    //   navigate('/signin')
+    // }
   }, []);
 
 
-  const handleLogout = async () => {
-    try {
-      await signOut(auth);
-      navigate('/signin');
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
   return (
-    // <div className="m-0 p-0 bg-white min-h-screen max-h-auto pt-10 pb-20 flex flex-col justify-center items-center">
-    //   {loading ? 
-    //    <div className="flex items-center justify-center h-full">
-    //     <AiOutlineLoading className="animate-spin text-blue-500 text-4xl" />
-    //   </div>
-    //   : (
-    //   <div className="w-full max-w-lg mx-auto bg-gray-50 p-10 rounded-md">
-    //     <div className="bg-white shadow-md rounded-md">
-    //       <h2 className="text-xl underline font-bold mb-2 p-4">Users List</h2>
-    //       <table className="w-full">
-    //         <tbody>
-    //           {userList.map((user, index) => (
-    //             <tr key={user.id} className="border-b">
-    //               <td className="py-2 px-4">{index + 1}</td>
-    //               <td className="py-2 px-4">{user.fullName || '{ Unknown Name }'}</td>
-    //             </tr>
-    //           ))}
-    //         </tbody>
-    //       </table>
-    //     </div>
-    //     {userList
-    //       .filter((user) => user.userUID === auth.currentUser?.uid)
-    //       .map((user) => (
-    //         <div key={user.id}>
-    //           <h1 className="text-4xl mt-12 font-bold mb-8">"{user.fullName}"s</h1>
-    //           <ul>
-    //             <li className="mb-4">
-    //               <p className="text-lg font-semibold">Name: {user.fullName}</p>
-    //               <p className="text-lg font-semibold">Email: {user.Email}</p>
-    //               <p className="text-lg font-semibold">Number: {user.Password}</p>
-    //               <p className="text-lg font-semibold">Address: {user.Address}</p>
-    //               <p className="text-lg font-semibold">Age: {user.Age}</p>
-    //               <p className="text-lg font-semibold">Standard: {user.Std}</p>
-    //             </li>
-    //           </ul>
-    //         </div>
-    //       ))}
-    //   </div>
-    //   )}
-    //   {auth.currentUser && (
-    //     <div className="flex mt-12 space-x-6 items-center justify-between">
-    //       <button
-    //         className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded"
-    //         onClick={handleLogout}
-    //       >
-    //         Log out
-    //       </button>
-    //     </div>
-    //   )}
-    // </div>
     <div className='w-full h-full '>
+      <div style={{ backgroundImage: `url(${ssfview})` }} className='bg-no-repaet text-[#d3e3fd] flex flex-col items-center justify-center bg-center relative bg-[#071a2b] overflow-hidden w-full p-7 md:px-44 lg:px-24 xl:px-64 py-16 md:py-24 lg:py-32'>
+        <div className='z-10 flex flex-col items-center gap-7 '>
+          <h1 className='text-5xl font-bold text-center lg:text-7xl'>Become a Member</h1>
+          <Link to='/Signup'>
+            <button className='hover:bg-[#39b54a] hover:border-[#d3e3fd] hover:bg-opacity-20 uppercase md:text-lg lg:text-xl border-2 shadow-lg border-[#39b54a] tracking-wider border rounded-3xl p-1 px-5'>Join us</button>
+          </Link>
+        </div>
+        <div className='absolute inset-0 w-full h-full bg-[#071a2b] opacity-50'></div>
+        {/* <img src={flag} className='absolute left-0 skew-y-6 saturate-50 drop-shadow-xl hue-rotate-15 -bottom-16 w-96' /> */}
+      </div>
+      <div className='bg-[#031525] py-20 text-white w-full flex flex-col items-start gap-y-6 h-full p-7 md:px-44 lg:px-24  xl:px-64'>
+        <p className='font-medium text-2xl text-[#d3e3fdb3]'>All Unit Members</p>
+        <div className='grid w-full h-auto grid-cols-1 gap-6 lg:grid-cols-3 grid-rows-auto'>
+          {loading ? (
+            <>
+              <div className='animate-pulse rounded-xl w-full h-44 bg-[#071a2b]'></div>
+              <div className='animate-pulse rounded-xl w-full h-44 bg-[#071a2b]'></div>
+              <div className='animate-pulse rounded-xl w-full h-44 bg-[#071a2b]'></div>
+            </>
+          ) : <>
+            {userList.filter((user) => user.Status === 'President').map((mem) => (
+              <div className='hover:bg-[#0d2136] cursor-pointer rounded-xl p-5 px-8 bg-[#071a2b] w-full '>
+                <p className='font-medium text-[#d3e3fd] capitalize text-xl tracking-wide'>{mem.fullName}</p>
+                <p className=' font-thin text-lg text-[#d3e3fdb3]'>( {mem.Status} )</p>
+                <LuCode2 className='text-[#d3e3fdb3] text-2xl mt-16' />
+              </div>
+            ))}
+            {userList.filter((user) => user.Status === 'Secretary').map((mem) => (
+              <div className='hover:bg-[#0d2136] cursor-pointer rounded-xl p-5 px-8 bg-[#071a2b] w-full '>
+                <p className='font-medium text-[#d3e3fd] capitalize text-xl tracking-wide'>{mem.fullName}</p>
+                <p className=' font-thin text-lg text-[#d3e3fdb3]'>( {mem.Status} )</p>
+                <LuCode2 className='text-[#d3e3fdb3] text-2xl mt-16' />
+              </div>
+            ))}
+            {userList.filter((user) => user.Status === 'F.secretary').map((mem) => (
+              <div className='hover:bg-[#0d2136] cursor-pointer rounded-xl p-5 px-8 bg-[#071a2b] w-full '>
+                <p className='font-medium text-[#d3e3fd] capitalize text-xl tracking-wide'>{mem.fullName}</p>
+                <p className=' font-thin text-lg text-[#d3e3fdb3]'>( {mem.Status} )</p>
+                <LuCode2 className='text-[#d3e3fdb3] text-2xl mt-16' />
+              </div>
+            ))}
+            {userList.filter((user) => user.Status === 'Mazhavil').map((mem) => (
+              <div className='hover:bg-[#0d2136] cursor-pointer rounded-xl p-5 px-8 bg-[#071a2b] w-full '>
+                <p className='font-medium text-[#d3e3fd] capitalize text-xl tracking-wide'>{mem.fullName}</p>
+                <p className=' font-thin text-lg text-[#d3e3fdb3]'>( {mem.Status} )</p>
+                <LuCode2 className='text-[#d3e3fdb3] text-2xl mt-16' />
+              </div>
+            ))}
+            {userList.filter((user) => user.Status === 'GD').map((mem) => (
+              <div className='hover:bg-[#0d2136] cursor-pointer rounded-xl p-5 px-8 bg-[#071a2b] w-full '>
+                <p className='font-medium text-[#d3e3fd] capitalize text-xl tracking-wide'>{mem.fullName}</p>
+                <p className=' font-thin text-lg text-[#d3e3fdb3]'>( {mem.Status} )</p>
+                <LuCode2 className='text-[#d3e3fdb3] text-2xl mt-16' />
+              </div>
+            ))}
+            {userList.filter((user) => user.Status === 'QD').map((mem) => (
+              <div className='hover:bg-[#0d2136] cursor-pointer rounded-xl p-5 px-8 bg-[#071a2b] w-full '>
+                <p className='font-medium text-[#d3e3fd] capitalize text-xl tracking-wide'>{mem.fullName}</p>
+                <p className=' font-thin text-lg text-[#d3e3fdb3]'>( {mem.Status} )</p>
+                <LuCode2 className='text-[#d3e3fdb3] text-2xl mt-16' />
+              </div>
+            ))}
+            {userList.filter((user) => user.Status === 'WEFI').map((mem) => (
+              <div className='hover:bg-[#0d2136] cursor-pointer rounded-xl p-5 px-8 bg-[#071a2b] w-full '>
+                <p className='font-medium text-[#d3e3fd] capitalize text-xl tracking-wide'>{mem.fullName}</p>
+                <p className=' font-thin text-lg text-[#d3e3fdb3]'>( {mem.Status} )</p>
+                <LuCode2 className='text-[#d3e3fdb3] text-2xl mt-16' />
+              </div>
+            ))}
+            {userList.filter((user) => user.Status === 'IT').map((mem) => (
+              <div className='hover:bg-[#0d2136] cursor-pointer rounded-xl p-5 px-8 bg-[#071a2b] w-full '>
+                <p className='font-medium text-[#d3e3fd] capitalize text-xl tracking-wide'>{mem.fullName}</p>
+                <p className=' font-thin text-lg text-[#d3e3fdb3]'>( {mem.Status} )</p>
+                <LuCode2 className='text-[#d3e3fdb3] text-2xl mt-16' />
+              </div>
+            ))}
+            {userList.filter((user) => user.Status === 'Teen star').map((mem) => (
+              <div className='hover:bg-[#0d2136] cursor-pointer rounded-xl p-5 px-8 bg-[#071a2b] w-full '>
+                <p className='font-medium text-[#d3e3fd] capitalize text-xl tracking-wide'>{mem.fullName}</p>
+                <p className=' font-thin text-lg text-[#d3e3fdb3]'>( {mem.Status} )</p>
+                <LuCode2 className='text-[#d3e3fdb3] text-2xl mt-16' />
+              </div>
+            ))}
+            {userList.filter((user) => user.Status === 'Secretariat member').map((mem) => (
+              <div className='hover:bg-[#0d2136] cursor-pointer rounded-xl p-5 px-8 bg-[#071a2b] w-full '>
+                <p className='font-medium text-[#d3e3fd] capitalize text-xl tracking-wide'>{mem.fullName}</p>
+                <p className=' font-thin text-lg text-[#d3e3fdb3]'>( {mem.Status} )</p>
+                <LuCode2 className='text-[#d3e3fdb3] text-2xl mt-16' />
+              </div>
+            ))}
+            {userList.filter((user) => user.Status === 'Member').map((mem) => (
+              <div className='hover:bg-[#0d2136] cursor-pointer rounded-xl p-5 px-8 bg-[#071a2b] w-full '>
+                <p className='font-medium text-[#d3e3fd] capitalize text-xl tracking-wide'>{mem.fullName}</p>
+                <p className=' font-thin text-lg text-[#d3e3fdb3]'>( {mem.Status} )</p>
+                <LuCode2 className='text-[#d3e3fdb3] text-2xl mt-16' />
+              </div>
+            ))}
+          </>}
+        </div>
+        <div className='h-[.5px] bg-[#d3e3fdb3] opacity-30 w-full my-7'></div>
+        <p className='font-medium text-2xl text-[#d3e3fdb3]'>Programmes</p>
+        <div className='grid w-full h-full grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3'>
+          <Link to='challenge/dates'>
+            <div className='relative flex flex-col items-center text-center border-[1px] border-[#d3e3fdb3]/30 rounded-xl p-5 lg:col-span-1'>
+              <p className=' text-[#d3e3fd] text-lg'>We've Embarked on a Date Challenge! </p>
+              <img src={dates} className='py-5' />
+              <p className='text-[#d3e3fd]'> #Ramadan #DateChallenge #AdventureAwaits 🌟</p>
+            </div>
+          </Link>
+          <div className='border-[1px] border-[#d3e3fdb3]/30 rounded-xl p-5 lg:col-span-2'>
 
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
