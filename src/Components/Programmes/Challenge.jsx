@@ -12,9 +12,12 @@ import { FaCircleArrowRight } from "react-icons/fa6";
 
 function Challenge() {
     const [loading, setLoading] = useState(false);
+    const [locationLoading, setLoactionLoading] = useState(false);
     const [isRegisterCompleted, setIsRegisterCompleted] = useState(false);
+    const [isLocationCompleted, setIsLocationCompleted] = useState(false);
     const [fullName, setFullName] = useState('');
     const [Package, setPackage] = useState('');
+    const [PackageType, setPackageType] = useState('');
     const [Contact, setContact] = useState('');
     const [Address, setAddress] = useState('');
     const [isPaid, setIsPaid] = useState(false);
@@ -69,6 +72,7 @@ function Challenge() {
                 Address,
                 Location,
                 isPaid,
+                PackageType,
                 registerDate: new Date(),
             });
 
@@ -79,8 +83,10 @@ function Challenge() {
                 setFullName('');
                 setPackage('');
                 setContact('');
+                setPackageType('');
                 setLocation(null);
                 setIsPaid(false);
+                setIsLocationCompleted(false)
             }, 1000);
         } catch (error) {
             alert(error.message);
@@ -116,9 +122,12 @@ function Challenge() {
     }, []);
 
     const getLocation = () => {
+        setLoactionLoading(true)
         navigator.geolocation.getCurrentPosition(
             (position) => {
                 setLocation({ latitude: position.coords.latitude, longitude: position.coords.longitude });
+                setLoactionLoading(false)
+                setIsLocationCompleted(true)
                 setSubmitDisabled(false); // Enable submit button after location selection
             },
             (error) => {
@@ -138,8 +147,16 @@ function Challenge() {
             </div>
             <div id='regForm' className='w-full h-full pt-24 lg:pt-32 p-7 md:px-20 lg:px-32 xl:px-44 '>
                 <form onSubmit={handleRegister} className='w-full h-auto space-y-7'>
-                    <div className='grid w-full h-full grid-cols-1 gap-5 lg:grid-cols-2 xl:grid-cols-4 grid-rows-auto'>
-                        <input required className="w-full p-0 py-2 border-0 border-b border-gray-300 outline-none ring-0 placeholder:font-normal placeholder:opacity-50 placeholder:text-black " type="number" placeholder='Enter Token' name="Token" value={Token} />
+                    <div className='flex flex-col items-center justify-between w-full gap-4 md:flex-row lg:w-auto'>
+                        <input required className="w-full lg:w-auto text-center text-lg px-5 py-2 border border-[#d3e3fd] font-medium md:rounded-l-xl bg-[#d3e3fdb3] md:text-xl text-[#031525]" type="number" placeholder='Enter Token' name="Token" value={Token} />
+                        <select required className="w-full lg:w-auto px-5 py-2 border border-[#d3e3fd] font-medium md:rounded-r-xl bg-[#d3e3fdb3] md:text-lg text-[#031525]" value={PackageType} onChange={(e) => setPackageType(e.target.value)}>
+                            <option value="" label="Select Package Type">Select Package Type</option>
+                            <option value="Primary" label="Primary">Primary</option>
+                            <option value="Secendary" label="Secendary">Secendary</option>
+                        </select>
+                    </div>
+                    <hr className='my-8' />
+                    <div className='grid w-full h-full grid-cols-1 gap-5 lg:grid-cols-3 grid-rows-auto'>
                         <input required className="w-full p-0 py-2 border-0 border-b border-gray-300 outline-none ring-0 placeholder:font-normal placeholder:opacity-50 placeholder:text-black " type="text" placeholder='Full name' name="fullName" value={fullName} onChange={(e) => setFullName(e.target.value)} />
                         <input required className="w-full p-0 py-2 border-0 border-b border-gray-300 outline-none ring-0 placeholder:font-normal placeholder:opacity-50 placeholder:text-black " type="number" placeholder='Mobile number' name="contact" value={Contact} onChange={(e) => setContact(e.target.value)} />
                         <select required className="w-full p-0 py-2 border-0 border-b border-gray-300 outline-none ring-0 placeholder:font-normal placeholder:opacity-50 placeholder:text-black" value={Package} onChange={(e) => setPackage(e.target.value)}>
@@ -151,17 +168,23 @@ function Challenge() {
                             <option value="4 kg" label="4 Kg">4 kg</option>
                             <option value="5 kg" label="5 Kg">5 kg</option>
                         </select>
-                        <textarea required className="w-full p-0 py-2 border-0 border-b border-gray-300 outline-none lg:col-span-2 xl:col-span-4 ring-0 placeholder:font-normal placeholder:opacity-50 placeholder:text-black " placeholder='Address' name="Address" value={Address} onChange={(e) => setAddress(e.target.value)} />
+                        <textarea required className="w-full p-0 py-2 border-0 border-b border-gray-300 outline-none lg:col-span-3 ring-0 placeholder:font-normal placeholder:opacity-50 placeholder:text-black " placeholder='Address' name="Address" value={Address} onChange={(e) => setAddress(e.target.value)} />
                     </div>
                     {Location?.latitude && Location?.longitude && (
                         <p className='w-full px-6 py-2 bg-gray-50'>" {Location?.latitude} {Location?.longitude} "</p>
                     )}
                     <div className='flex flex-col items-center justify-between w-full gap-5 lg:flex-row'>
                         <div className='flex flex-col items-center justify-start w-full gap-4 md:flex-row lg:w-auto'>
-                            {/* <span onClick={getLocation} className='flex items-center justify-start w-full px-4 py-2 bg-gray-100 rounded-lg cursor-pointer md:text-lg lg:w-auto gap-x-4'>
-                                <MdMyLocation className='text-xl md:text-2xl' />
-                                <p>Use precise location</p>
-                            </span> */}
+                            <span onClick={getLocation} className='flex items-center justify-start w-full px-4 py-2 bg-gray-100 rounded-lg cursor-pointer md:text-lg lg:w-auto gap-x-4'>
+                                {locationLoading ? (
+                                    <AiOutlineLoading className='w-auto animate-spin text-[#39b54a] text-2xl mr-2' />
+                                ) : isLocationCompleted ? (
+                                    <p className='w-auto text-lg font-medium'>Location Success ✓</p>
+                                ) : <>
+                                    <MdMyLocation className='text-xl md:text-2xl' />
+                                    <p>Use precise location</p>
+                                </>}
+                            </span>
                             <div className='flex items-center justify-between w-full px-4 py-2 bg-gray-100 rounded-lg lg:justify-start gap-x-4 lg:w-auto md:text-lg '>
                                 <p>Paid Cash</p>
                                 <input type='checkbox' checked={isPaid} onChange={(e) => setIsPaid(e.target.checked)} />
@@ -173,9 +196,9 @@ function Challenge() {
                             <p className='w-auto text-[#39b54a] text-lg font-medium'>Register completed ✓</p>
                         ) : (
                             <button
-                                // disabled={submitDisabled} class:${submitDisabled ? 'cursor-not-allowed opacity-50' : ''}
+                                disabled={submitDisabled}
                                 type='submit'
-                                className={`bg-[#39b54a] py-2 px-4 w-full lg:w-auto  text-white font-medium rounded-md uppercase hover:bg-[#4caf50] transition duration-300 `}
+                                className={`bg-[#39b54a] py-2 px-4 w-full lg:w-auto  text-white font-medium rounded-md uppercase hover:bg-[#4caf50] transition duration-300 ${submitDisabled ? 'cursor-not-allowed opacity-50' : ''}`}
                             >
                                 Register Challenge
                             </button>
@@ -183,8 +206,8 @@ function Challenge() {
                     </div>
                 </form>
             </div>
-            <hr className='my-8' />
-            {(Participates.length > 0 && (auth?.currentUser?.email === 'ahmedswabah922@gmail.com' || 'kmuhammedktr@gmail.com')) && (
+            {(Participates.length > 0 && (auth?.currentUser?.email === 'ahmedswabah922@gmail.com' || 'kmuhammedktr@gmail.com')) && <>
+                <hr className='my-8' />
                 <div class="pb-14 lg:pb-20 p-7 md:px-20 lg:px-32 xl:px-44  flex flex-col gap-y-5">
                     <Link to='/challenge/admin'>
                         <div className='w-full lg:w-auto p-2 px-6 rounded font-medium lg:text-xl bg-[#071a2b] flex justify-between items-center text-[#d3e3fd]'>
@@ -237,7 +260,7 @@ function Challenge() {
                         </div>
                     </div>
                 </div>
-            )}
+            </>}
 
             {Participates.map((par) => (
                 <React.Fragment key={par.Token}>
