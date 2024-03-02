@@ -3,6 +3,7 @@ import { FiXCircle } from 'react-icons/fi';
 import { useNavigate } from 'react-router-dom';
 import { db } from '../../../Firebase/Config';
 import { collection, deleteDoc, doc, getDocs, query, where } from 'firebase/firestore';
+import { FcCancel, FcCheckmark } from 'react-icons/fc';
 
 function ParticipateModal({ onClose, par, closePath }) {
   const navigate = useNavigate();
@@ -44,20 +45,23 @@ function ParticipateModal({ onClose, par, closePath }) {
           <div className='relative flex flex-col items-start max-w-md max-h-screen p-5 mx-5 bg-white shadow-lg pt-9 lg:p-10 rounded-3xl modal lg:max-w-3xl md:max-w-2xl bg-opacity-90'>
             <div className='flex flex-col items-start w-full h-full space-y-3 md:col-span-3'>
               <div>
-                <p className='capitalize text-lg font-bold select-none md:text-xl lg:text-2xl'>{par.fullName}</p>
+                <p className='text-lg font-bold capitalize select-none md:text-xl lg:text-2xl'>{par.fullName}</p>
                 <p className='select-none opacity-90 lg:text-xl '>{par.Contact}</p>
               </div>
-              <div className='flex items-center'>
-                <p className='w-auto px-5 py-2 border-r border-[#d3e3fd] border-0 rounded-l-xl bg-[#031525] md:text-lg font-medium text-[#d3e3fdb3]'>#{par.Token}</p>
-                <p className='w-auto px-5 py-2  border-l border-[#d3e3fd] border-0 rounded-r-xl bg-[#031525] md:text-lg font-medium text-[#d3e3fdb3]'>{par.Package}</p>
+              <div class="font-medium text-[#071a2b] md:text-lg  capitalize flex items-center gap-x-2">
+                <p>Payment : </p>
+                <p>{par?.isPaid ? (<FcCheckmark className='text-xl font-semibold' />) : (<FcCancel className='text-xl font-semibold' />)}</p>
               </div>
-
-              <p className='capitalize text-base lg:text-lg'>{par.Address}</p>
+              <div className='flex items-center'>
+                <p className='w-auto px-5 py-2 border-r border-[#d3e3fd] border-0 rounded-l-xl bg-[#d3e3fdb3] md:text-lg italic text-[#031525]'>#{par.Token}</p>
+                <p className='w-auto px-5 py-2  border-l border-[#d3e3fd] border-0 rounded-r-xl bg-[#031525] md:text-lg font-medium text-[#d3e3fd]'>{par.Package}</p>
+              </div>
+              <p className='text-base capitalize lg:text-lg'>{par.Address}</p>
             </div>
             <div onClick={onClose}>
               <FiXCircle className='absolute text-2xl font-light cursor-pointer top-3 right-3 md:top-5 md:right-5 opacity-70' onClick={() => navigate(closePath)} />
             </div>
-            <p onClick={() => deleteParticipateWithoutUid(par)} className='cursor-pointer pt-8 text-red-600'>Delete the Participate</p>
+            <p onClick={() => deleteParticipateWithoutUid(par)} className='pt-8 text-red-600 cursor-pointer'>Delete the Participate</p>
           </div>
         </div>
       </div>

@@ -26,7 +26,13 @@ function Challenge() {
     const navigate = useNavigate();
 
     const generateToken = () => {
-        const token = 100 + Participates.length;
+        if (auth?.currentUser?.email === 'ahmedswabah922@gmail.com') {
+            var DefualtToken = 100
+        } else if (auth?.currentUser?.email === 'kmuhammedktr@gmail.com') {
+            var DefualtToken = 200
+        }
+
+        const token = DefualtToken + Participates.length;
         return token;
     };
 
@@ -126,11 +132,11 @@ function Challenge() {
             <div style={{ backgroundImage: `url(${datesfriuts})` }} className='bg-no-repeat bg-cover text-[#d3e3fd] flex flex-col items-center justify-center bg-center relative bg-[#071a2b] overflow-hidden w-full p-7 md:px-44 lg:px-24 xl:px-64 py-16 md:py-24 lg:py-32'>
                 <div className='z-10 flex flex-col items-center gap-10 '>
                     <h1 className='text-5xl font-bold text-center lg:text-7xl'>Challenge Registration</h1>
-                    <a href='#regForm' className=' text-xl   md:text-2xl lg:text-3xl  shadow-lg  animate-bounce '><BsArrowDownCircle /></a>
+                    <a href='#regForm' className='text-xl shadow-lg md:text-2xl lg:text-3xl animate-bounce'><BsArrowDownCircle /></a>
                 </div>
                 <div className='absolute inset-0 w-full h-full bg-[#071a2b] opacity-50'></div>
             </div>
-            <div id='regForm' className='w-full h-full pt-24 lg:pt-32 p-7  md:px-20 lg:px-32 xl:px-44 '>
+            <div id='regForm' className='w-full h-full pt-24 lg:pt-32 p-7 md:px-20 lg:px-32 xl:px-44 '>
                 <form onSubmit={handleRegister} className='w-full h-auto space-y-7'>
                     <div className='grid w-full h-full grid-cols-1 gap-5 lg:grid-cols-2 xl:grid-cols-4 grid-rows-auto'>
                         <input required className="w-full p-0 py-2 border-0 border-b border-gray-300 outline-none ring-0 placeholder:font-normal placeholder:opacity-50 placeholder:text-black " type="number" placeholder='Enter Token' name="Token" value={Token} />
@@ -138,22 +144,25 @@ function Challenge() {
                         <input required className="w-full p-0 py-2 border-0 border-b border-gray-300 outline-none ring-0 placeholder:font-normal placeholder:opacity-50 placeholder:text-black " type="number" placeholder='Mobile number' name="contact" value={Contact} onChange={(e) => setContact(e.target.value)} />
                         <select required className="w-full p-0 py-2 border-0 border-b border-gray-300 outline-none ring-0 placeholder:font-normal placeholder:opacity-50 placeholder:text-black" value={Package} onChange={(e) => setPackage(e.target.value)}>
                             <option value="" label="Select Package">Select your Package</option>
+                            <option value="500 g" label="500 g">500 g</option>
+                            <option value="1 kg" label="1 Kg">1 kg</option>
                             <option value="2 kg" label="2 Kg">2 kg</option>
+                            <option value="3 kg" label="3 Kg">3 kg</option>
+                            <option value="4 kg" label="4 Kg">4 kg</option>
                             <option value="5 kg" label="5 Kg">5 kg</option>
-                            <option value="10 kg" label="10 Kg">10 kg</option>
                         </select>
                         <textarea required className="w-full p-0 py-2 border-0 border-b border-gray-300 outline-none lg:col-span-2 xl:col-span-4 ring-0 placeholder:font-normal placeholder:opacity-50 placeholder:text-black " placeholder='Address' name="Address" value={Address} onChange={(e) => setAddress(e.target.value)} />
                     </div>
-                    {Location.latitude && Location.longitude && (
-                        <p className='w-full px-6 py-2 bg-gray-50'>" {Location.latitude} {Location.longitude} "</p>
+                    {Location?.latitude && Location?.longitude && (
+                        <p className='w-full px-6 py-2 bg-gray-50'>" {Location?.latitude} {Location?.longitude} "</p>
                     )}
                     <div className='flex flex-col items-center justify-between w-full gap-5 lg:flex-row'>
-                        <div className='flex flex-col md:flex-row gap-4 items-center  justify-start w-full lg:w-auto'>
-                            <span onClick={getLocation} className='flex items-center justify-start w-full px-4 py-2 md:text-lg bg-gray-100 rounded-lg cursor-pointer lg:w-auto gap-x-4'>
+                        <div className='flex flex-col items-center justify-start w-full gap-4 md:flex-row lg:w-auto'>
+                            {/* <span onClick={getLocation} className='flex items-center justify-start w-full px-4 py-2 bg-gray-100 rounded-lg cursor-pointer md:text-lg lg:w-auto gap-x-4'>
                                 <MdMyLocation className='text-xl md:text-2xl' />
                                 <p>Use precise location</p>
-                            </span>
-                            <div className='flex items-center justify-between lg:justify-start gap-x-4 w-full lg:w-auto px-4 py-2 md:text-lg bg-gray-100 rounded-lg '>
+                            </span> */}
+                            <div className='flex items-center justify-between w-full px-4 py-2 bg-gray-100 rounded-lg lg:justify-start gap-x-4 lg:w-auto md:text-lg '>
                                 <p>Paid Cash</p>
                                 <input type='checkbox' checked={isPaid} onChange={(e) => setIsPaid(e.target.checked)} />
                             </div>
@@ -164,9 +173,9 @@ function Challenge() {
                             <p className='w-auto text-[#39b54a] text-lg font-medium'>Register completed ✓</p>
                         ) : (
                             <button
-                                disabled={submitDisabled}
+                                // disabled={submitDisabled} class:${submitDisabled ? 'cursor-not-allowed opacity-50' : ''}
                                 type='submit'
-                                className={`bg-[#39b54a] py-2 px-4 w-full lg:w-auto  text-white font-medium rounded-md uppercase hover:bg-[#4caf50] transition duration-300 ${submitDisabled ? 'cursor-not-allowed opacity-50' : ''}`}
+                                className={`bg-[#39b54a] py-2 px-4 w-full lg:w-auto  text-white font-medium rounded-md uppercase hover:bg-[#4caf50] transition duration-300 `}
                             >
                                 Register Challenge
                             </button>
