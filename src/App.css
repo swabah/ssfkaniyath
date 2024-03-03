@@ -1,16 +1,15 @@
-
-*{
+* {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: "Playfair Display", serif;
+  font-family: "Space Grotesk", serif;
   font-optical-sizing: auto;
   font-style: normal;
   scroll-behavior: smooth;
 }
 
-p,th,td  ,a,span,input,option,select,textarea,button{
-    font-family: "Space Grotesk", serif;
-    font-optical-sizing: auto;
-    font-style: normal; 
+h1 {
+  font-family: "Playfair Display", serif;
+  font-optical-sizing: auto;
+  font-style: normal;
 }

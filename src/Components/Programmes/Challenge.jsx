@@ -9,6 +9,7 @@ import { BsArrowDownCircle } from "react-icons/bs";
 import { Link, useNavigate } from 'react-router-dom';
 import ParticipateModal from '../assets/Challenges/ParticipateModal';
 import { FaCircleArrowRight } from "react-icons/fa6";
+import token from '../assets/images/token.png'
 
 function Challenge() {
     const [loading, setLoading] = useState(false);
@@ -28,18 +29,7 @@ function Challenge() {
     const [showModalId, setShowModalId] = useState(null);
     const navigate = useNavigate();
 
-    const generateToken = () => {
-        if (auth?.currentUser?.email === 'ahmedswabah922@gmail.com') {
-            var DefualtToken = 100
-        } else if (auth?.currentUser?.email === 'kmuhammedktr@gmail.com') {
-            var DefualtToken = 200
-        }
-
-        const token = DefualtToken + Participates.length;
-        return token;
-    };
-
-    const Token = generateToken();
+    const Token = 100 + Participates.length;
 
 
     function showPartiModal(Token) {
@@ -145,18 +135,21 @@ function Challenge() {
                 </div>
                 <div className='absolute inset-0 w-full h-full bg-[#071a2b] opacity-50'></div>
             </div>
-            <div id='regForm' className='w-full h-full pt-24 lg:pt-32 p-7 md:px-20 lg:px-32 xl:px-44 '>
+            <div id='regForm' className='w-full h-full pt-24 pb-12 lg:pt-32 p-7 md:px-20 lg:px-32 xl:px-44 '>
                 <form onSubmit={handleRegister} className='w-full h-auto space-y-7'>
                     <div className='flex flex-col items-center justify-between w-full gap-4 md:flex-row lg:w-auto'>
-                        <input required className="w-full lg:w-auto text-center text-lg px-5 py-2 border border-[#d3e3fd] font-medium md:rounded-l-xl bg-[#d3e3fdb3] md:text-xl text-[#031525]" type="number" placeholder='Enter Token' name="Token" value={Token} />
-                        <select required className="w-full lg:w-auto px-5 py-2 border border-[#d3e3fd] font-medium md:rounded-r-xl bg-[#d3e3fdb3] md:text-lg text-[#031525]" value={PackageType} onChange={(e) => setPackageType(e.target.value)}>
-                            <option value="" label="Select Package Type">Select Package Type</option>
+                        <div className='relative w-auto'>
+                            <img src={token} alt="Token NO:" className='w-32 -m-1 saturate-50' />
+                            <div className='absolute inset-0 flex items-center justify-center w-full h-full'>
+                                <p className='mt-1 mr-8 text-xl font-medium tracking-wider text-white'>{Token}</p>
+                            </div>
+                        </div>
+                        <select required className="w-full md:w-auto px-5 py-2 border border-[#d3e3fd] font-medium md:rounded-r-xl bg-[#d3e3fdb3] md:text-lg text-[#031525]" value={PackageType} onChange={(e) => setPackageType(e.target.value)}>
                             <option value="Primary" label="Primary">Primary</option>
                             <option value="Secendary" label="Secendary">Secendary</option>
                         </select>
                     </div>
-                    <hr className='my-8' />
-                    <div className='grid w-full h-full grid-cols-1 gap-5 lg:grid-cols-3 grid-rows-auto'>
+                    <div className='grid w-full h-full grid-cols-1 gap-5 pt-10 lg:grid-cols-3 grid-rows-auto'>
                         <input required className="w-full p-0 py-2 border-0 border-b border-gray-300 outline-none ring-0 placeholder:font-normal placeholder:opacity-50 placeholder:text-black " type="text" placeholder='Full name' name="fullName" value={fullName} onChange={(e) => setFullName(e.target.value)} />
                         <input required className="w-full p-0 py-2 border-0 border-b border-gray-300 outline-none ring-0 placeholder:font-normal placeholder:opacity-50 placeholder:text-black " type="number" placeholder='Mobile number' name="contact" value={Contact} onChange={(e) => setContact(e.target.value)} />
                         <select required className="w-full p-0 py-2 border-0 border-b border-gray-300 outline-none ring-0 placeholder:font-normal placeholder:opacity-50 placeholder:text-black" value={Package} onChange={(e) => setPackage(e.target.value)}>
@@ -168,7 +161,7 @@ function Challenge() {
                             <option value="4 kg" label="4 Kg">4 kg</option>
                             <option value="5 kg" label="5 Kg">5 kg</option>
                         </select>
-                        <textarea required className="w-full p-0 py-2 border-0 border-b border-gray-300 outline-none lg:col-span-3 ring-0 placeholder:font-normal placeholder:opacity-50 placeholder:text-black " placeholder='Address' name="Address" value={Address} onChange={(e) => setAddress(e.target.value)} />
+                        <textarea className="w-full p-0 py-2 border-0 border-b border-gray-300 outline-none lg:col-span-3 ring-0 placeholder:font-normal placeholder:opacity-50 placeholder:text-black " placeholder='Address' name="Address" value={Address} onChange={(e) => setAddress(e.target.value)} />
                     </div>
                     {Location?.latitude && Location?.longitude && (
                         <p className='w-full px-6 py-2 bg-gray-50'>" {Location?.latitude} {Location?.longitude} "</p>
