@@ -74,7 +74,7 @@ function Admin() {
             </Link>
             <div className='w-full h-full gap-12 py-14 lg:py-20 p-7 md:px-20 lg:px-32 xl:px-44'>
                 <div id='admin' className='grid items-start grid-cols-1 gap-5 lg:grid-cols-3'>
-                    {Participates.filter((par) => par.Package === '500 g').length > 0 && (
+                    {/* {Participates.filter((par) => par.Package === '500 g').length > 0 && (
                         <div className="flex flex-col gap-y-5">
                             <div className='p-2 px-6 rounded font-medium lg:text-xl bg-[#071a2b] flex justify-between items-center text-[#d3e3fd]'>
                                 <p>500 g</p>
@@ -108,7 +108,7 @@ function Admin() {
                                                             <td class="px-6 py-4 whitespace-nowrap font-medium text-[#071a2b] capitalize ">{par?.isPaid ? (<FcCheckmark />) : (<FcCancel />)}</td>
                                                             <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-[#071a2b] capitalize ">{par.Token}</td>
                                                             <td className="px-6 py-4 whitespace-nowrap text-sm text-[#071a2b] capitalize ">{par.fullName}</td>
-                                                            <td className="px-6 py-4 whitespace-nowrap text-sm capitalize ">{(par?.PackageType === 'Primary') ? (<p className='text-green-500' >{par.PackageType}</p>) : (<p className='text-red-500' >{par.PackageType}</p>)}</td>
+                                                            <td className="px-6 py-4 text-sm capitalize whitespace-nowrap ">{(par?.PackageType === 'Primary') ? (<p className='text-green-500' >{par.PackageType}</p>) : (<p className='text-red-500' >{par.PackageType}</p>)}</td>
                                                             <td className="px-6 py-4 text-sm font-medium whitespace-nowrap">
                                                                 <button onClick={() => showPartiModal(par.Token)} type="button" className="inline-flex items-center text-sm font-semibold text-blue-600 border border-transparent rounded-lg gap-x-2 hover:text-blue-800 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-500 dark:hover:text-blue-400 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">View</button>
                                                             </td>
@@ -156,7 +156,7 @@ function Admin() {
                                                             <td class="px-6 py-4 whitespace-nowrap font-medium text-[#071a2b] capitalize ">{par?.isPaid ? (<FcCheckmark />) : (<FcCancel />)}</td>
                                                             <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-[#071a2b] capitalize ">{par.Token}</td>
                                                             <td className="px-6 py-4 whitespace-nowrap text-sm text-[#071a2b] capitalize ">{par.fullName}</td>
-                                                            <td className="px-6 py-4 whitespace-nowrap text-sm capitalize ">{(par?.PackageType === 'Primary') ? (<p className='text-green-500' >{par.PackageType}</p>) : (<p className='text-red-500' >{par.PackageType}</p>)}</td>
+                                                            <td className="px-6 py-4 text-sm capitalize whitespace-nowrap ">{(par?.PackageType === 'Primary') ? (<p className='text-green-500' >{par.PackageType}</p>) : (<p className='text-red-500' >{par.PackageType}</p>)}</td>
                                                             <td className="px-6 py-4 text-sm font-medium whitespace-nowrap">
                                                                 <button onClick={() => showPartiModal(par.Token)} type="button" className="inline-flex items-center text-sm font-semibold text-blue-600 border border-transparent rounded-lg gap-x-2 hover:text-blue-800 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-500 dark:hover:text-blue-400 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">View</button>
                                                             </td>
@@ -169,12 +169,12 @@ function Admin() {
                                 </div>
                             </div>
                         </div>
-                    )}
-                    {Participates.filter((par) => par.Package === '2 kg').length > 0 && (
+                    )} */}
+                    {Participates.filter((par) => par.PackageType === 'Primary').length > 0 && (
                         <div className="flex flex-col gap-y-5">
                             <div className='p-2 px-6 rounded font-medium lg:text-xl bg-[#071a2b] flex justify-between items-center text-[#d3e3fd]'>
-                                <p>2 kg</p>
-                                <span> {Participates.filter((par) => par.Package === '2 kg').length} </span>
+                                <p>Primary</p>
+                                <span> {Participates.filter((par) => par.PackageType === 'Primary').length} </span>
                             </div>
                             <div className="overflow-x-auto ">
                                 <div className="inline-block min-w-full align-middle">
@@ -199,60 +199,12 @@ function Admin() {
                                                         <tr><td className='w-full h-12 bg-gray-100 animate-pulse'></td><td className='w-full h-12 bg-gray-100 animate-pulse'></td><td className='w-full h-12 bg-gray-100 animate-pulse'></td><td className='w-full h-12 bg-gray-100 animate-pulse'></td><td className='w-full h-12 bg-gray-100 animate-pulse'></td></tr>
                                                     </>
                                                 ) : <>
-                                                    {Participates.filter((par) => par.Package === '2 kg').map((par) => (
-                                                        <tr>
-                                                            <td class="px-6 py-4 whitespace-nowrap font-medium text-[#071a2b] capitalize ">{par?.isPaid ? (<FcCheckmark />) : (<FcCancel />)}</td>
-                                                            <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-[#071a2b] capitalize ">{par.Token}</td>
-                                                            <td className="px-6 py-4 whitespace-nowrap text-sm text-[#071a2b] capitalize ">{par.fullName}</td>
-                                                            <td className="px-6 py-4 whitespace-nowrap text-sm capitalize ">{(par?.PackageType === 'Primary') ? (<p className='text-green-500' >{par.PackageType}</p>) : (<p className='text-red-500' >{par.PackageType}</p>)}</td>
-                                                            <td className="px-6 py-4 text-sm font-medium whitespace-nowrap">
-                                                                <button onClick={() => showPartiModal(par.Token)} type="button" className="inline-flex items-center text-sm font-semibold text-blue-600 border border-transparent rounded-lg gap-x-2 hover:text-blue-800 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-500 dark:hover:text-blue-400 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">View</button>
-                                                            </td>
-                                                        </tr>
-                                                    ))}
-                                                </>}
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    )}
-                    {Participates.filter((par) => par.Package === '3 kg').length > 0 && (
-                        <div className="flex flex-col gap-y-5">
-                            <div className='p-2 px-6 rounded font-medium lg:text-xl bg-[#071a2b] flex justify-between items-center text-[#d3e3fd]'>
-                                <p>3 kg</p>
-                                <span> {Participates.filter((par) => par.Package === '3 kg').length} </span>
-                            </div>
-                            <div className="overflow-x-auto ">
-                                <div className="inline-block min-w-full align-middle">
-                                    <div className="overflow-hidden border rounded-lg shadow ">
-                                        <table className="min-w-full divide-y divide-gray-200 ">
-                                            <thead className="">
-                                                <tr>
-                                                    <th scope="col" className="px-6 py-3 text-xs font-medium uppercase text-start lg:text-sm ">Payment</th>
-                                                    <th scope="col" className="px-6 py-3 text-xs font-medium uppercase text-start lg:text-sm ">Token</th>
-                                                    <th scope="col" className="px-6 py-3 text-xs font-medium uppercase text-start lg:text-sm ">Name</th>
-                                                    <th scope="col" className="px-6 py-3 text-xs font-medium uppercase text-start lg:text-sm ">P.Type</th>
-                                                    <th scope="col" className="px-6 py-3 text-xs font-medium uppercase text-start lg:text-sm ">View</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody className="divide-y divide-gray-200 ">
-                                                {fetchLoading ? (
-                                                    <>
-                                                        <tr><td className='w-full h-12 bg-gray-100 animate-pulse'></td><td className='w-full h-12 bg-gray-100 animate-pulse'></td><td className='w-full h-12 bg-gray-100 animate-pulse'></td><td className='w-full h-12 bg-gray-100 animate-pulse'></td><td className='w-full h-12 bg-gray-100 animate-pulse'></td></tr>
-                                                        <tr><td className='w-full h-12 bg-gray-100 animate-pulse'></td><td className='w-full h-12 bg-gray-100 animate-pulse'></td><td className='w-full h-12 bg-gray-100 animate-pulse'></td><td className='w-full h-12 bg-gray-100 animate-pulse'></td><td className='w-full h-12 bg-gray-100 animate-pulse'></td></tr>
-                                                        <tr><td className='w-full h-12 bg-gray-100 animate-pulse'></td><td className='w-full h-12 bg-gray-100 animate-pulse'></td><td className='w-full h-12 bg-gray-100 animate-pulse'></td><td className='w-full h-12 bg-gray-100 animate-pulse'></td><td className='w-full h-12 bg-gray-100 animate-pulse'></td></tr>
-                                                        <tr><td className='w-full h-12 bg-gray-100 animate-pulse'></td><td className='w-full h-12 bg-gray-100 animate-pulse'></td><td className='w-full h-12 bg-gray-100 animate-pulse'></td><td className='w-full h-12 bg-gray-100 animate-pulse'></td><td className='w-full h-12 bg-gray-100 animate-pulse'></td></tr>
-                                                        <tr><td className='w-full h-12 bg-gray-100 animate-pulse'></td><td className='w-full h-12 bg-gray-100 animate-pulse'></td><td className='w-full h-12 bg-gray-100 animate-pulse'></td><td className='w-full h-12 bg-gray-100 animate-pulse'></td><td className='w-full h-12 bg-gray-100 animate-pulse'></td></tr>
-                                                    </>
-                                                ) : <>
-                                                    {Participates.filter((par) => par.Package === '3 kg').map((par) => (
+                                                    {Participates.filter((par) => par.PackageType === 'Primary').map((par) => (
                                                         <tr>
                                                             <td class="px-6 py-4 whitespace-nowrap font-medium text-[#071a2b] capitalize ">{par?.isPaid ? (<FcCheckmark />) : (<FcCancel />)}</td>
                                                             <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-[#071a2b] capitalize ">{par.Token}</td>
                                                             <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-[#071a2b] capitalize ">{par.fullName}</td>
-                                                            <td className="px-6 py-4 whitespace-nowrap text-sm capitalize ">{(par?.PackageType === 'Primary') ? (<p className='text-green-500' >{par.PackageType}</p>) : (<p className='text-red-500' >{par.PackageType}</p>)}</td>
+                                                            <td className="px-6 py-4 text-sm capitalize whitespace-nowrap ">{(par?.PackageType === 'Primary') ? (<p className='text-green-500' >{par.PackageType}</p>) : (<p className='text-red-500' >{par.PackageType}</p>)}</td>
                                                             <td className="px-6 py-4 text-sm font-medium whitespace-nowrap">
                                                                 <button onClick={() => showPartiModal(par.Token)} type="button" className="inline-flex items-center text-sm font-semibold text-blue-600 border border-transparent rounded-lg gap-x-2 hover:text-blue-800 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-500 dark:hover:text-blue-400 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">View</button>
                                                             </td>
@@ -266,59 +218,11 @@ function Admin() {
                             </div>
                         </div>
                     )}
-                    {Participates.filter((par) => par.Package === '4 kg').length > 0 && (
+                    {Participates.filter((par) => par.PackageType === 'Secendary').length > 0 && (
                         <div className="flex flex-col gap-y-5">
                             <div className='p-2 px-6 rounded font-medium lg:text-xl bg-[#071a2b] flex justify-between items-center text-[#d3e3fd]'>
-                                <p>4 kg</p>
-                                <span> {Participates.filter((par) => par.Package === '4 kg').length} </span>
-                            </div>
-                            <div className="overflow-x-auto ">
-                                <div className="inline-block min-w-full align-middle">
-                                    <div className="overflow-hidden border rounded-lg shadow ">
-                                        <table className="min-w-full divide-y divide-gray-200 ">
-                                            <thead className="">
-                                                <tr>
-                                                    <th scope="col" className="px-6 py-3 text-xs font-medium uppercase text-start lg:text-sm ">Payment</th>
-                                                    <th scope="col" className="px-6 py-3 text-xs font-medium uppercase text-start lg:text-sm ">Token</th>
-                                                    <th scope="col" className="px-6 py-3 text-xs font-medium uppercase text-start lg:text-sm ">Name</th>
-                                                    <th scope="col" className="px-6 py-3 text-xs font-medium uppercase text-start lg:text-sm ">P.Type</th>
-                                                    <th scope="col" className="px-6 py-3 text-xs font-medium uppercase text-start lg:text-sm ">View</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody className="divide-y divide-gray-200 ">
-                                                {fetchLoading ? (
-                                                    <>
-                                                        <tr><td className='w-full h-12 bg-gray-100 animate-pulse'></td><td className='w-full h-12 bg-gray-100 animate-pulse'></td><td className='w-full h-12 bg-gray-100 animate-pulse'></td><td className='w-full h-12 bg-gray-100 animate-pulse'></td><td className='w-full h-12 bg-gray-100 animate-pulse'></td></tr>
-                                                        <tr><td className='w-full h-12 bg-gray-100 animate-pulse'></td><td className='w-full h-12 bg-gray-100 animate-pulse'></td><td className='w-full h-12 bg-gray-100 animate-pulse'></td><td className='w-full h-12 bg-gray-100 animate-pulse'></td><td className='w-full h-12 bg-gray-100 animate-pulse'></td></tr>
-                                                        <tr><td className='w-full h-12 bg-gray-100 animate-pulse'></td><td className='w-full h-12 bg-gray-100 animate-pulse'></td><td className='w-full h-12 bg-gray-100 animate-pulse'></td><td className='w-full h-12 bg-gray-100 animate-pulse'></td><td className='w-full h-12 bg-gray-100 animate-pulse'></td></tr>
-                                                        <tr><td className='w-full h-12 bg-gray-100 animate-pulse'></td><td className='w-full h-12 bg-gray-100 animate-pulse'></td><td className='w-full h-12 bg-gray-100 animate-pulse'></td><td className='w-full h-12 bg-gray-100 animate-pulse'></td><td className='w-full h-12 bg-gray-100 animate-pulse'></td></tr>
-                                                        <tr><td className='w-full h-12 bg-gray-100 animate-pulse'></td><td className='w-full h-12 bg-gray-100 animate-pulse'></td><td className='w-full h-12 bg-gray-100 animate-pulse'></td><td className='w-full h-12 bg-gray-100 animate-pulse'></td><td className='w-full h-12 bg-gray-100 animate-pulse'></td></tr>
-                                                    </>
-                                                ) : <>
-                                                    {Participates.filter((par) => par.Package === '4 kg').map((par) => (
-                                                        <tr>
-                                                            <td class="px-6 py-4 whitespace-nowrap font-medium text-[#071a2b] capitalize ">{par?.isPaid ? (<FcCheckmark />) : (<FcCancel />)}</td>
-                                                            <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-[#071a2b] capitalize ">{par.Token}</td>
-                                                            <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-[#071a2b] capitalize ">{par.fullName}</td>
-                                                            <td className="px-6 py-4 whitespace-nowrap text-sm capitalize ">{(par?.PackageType === 'Primary') ? (<p className='text-green-500' >{par.PackageType}</p>) : (<p className='text-red-500' >{par.PackageType}</p>)}</td>
-                                                            <td className="px-6 py-4 text-sm font-medium whitespace-nowrap">
-                                                                <button onClick={() => showPartiModal(par.Token)} type="button" className="inline-flex items-center text-sm font-semibold text-blue-600 border border-transparent rounded-lg gap-x-2 hover:text-blue-800 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-500 dark:hover:text-blue-400 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">View</button>
-                                                            </td>
-                                                        </tr>
-                                                    ))}
-                                                </>}
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    )}
-                    {Participates.filter((par) => par.Package === '5 kg').length > 0 && (
-                        <div className="flex flex-col gap-y-5">
-                            <div className='p-2 px-6 rounded font-medium lg:text-xl bg-[#071a2b] flex justify-between items-center text-[#d3e3fd]'>
-                                <p>5 kg</p>
-                                <span> {Participates.filter((par) => par.Package === '5 kg').length} </span>
+                                <p>Secendary</p>
+                                <span> {Participates.filter((par) => par.PackageType === 'Secendary').length} </span>
                             </div>
                             <div className="overflow-x-auto ">
                                 <div className="inline-block min-w-full align-middle">
@@ -342,12 +246,12 @@ function Admin() {
                                                         <tr><td className='w-full h-12 bg-gray-100 animate-pulse'></td><td className='w-full h-12 bg-gray-100 animate-pulse'></td><td className='w-full h-12 bg-gray-100 animate-pulse'></td><td className='w-full h-12 bg-gray-100 animate-pulse'></td><td className='w-full h-12 bg-gray-100 animate-pulse'></td></tr>
                                                     </>
                                                 ) : <>
-                                                    {Participates.filter((par) => par.Package === '5 kg').map((par) => (
+                                                    {Participates.filter((par) => par.PackageType === 'Secendary').map((par) => (
                                                         <tr>
                                                             <td class="px-6 py-4 whitespace-nowrap font-medium text-[#071a2b] capitalize ">{par?.isPaid ? (<FcCheckmark />) : (<FcCancel />)}</td>
                                                             <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-[#071a2b] capitalize ">{par.Token}</td>
                                                             <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-[#071a2b] capitalize ">{par.fullName}</td>
-                                                            <td className="px-6 py-4 whitespace-nowrap text-sm capitalize ">{(par?.PackageType === 'Primary') ? (<p className='text-green-500' >{par.PackageType}</p>) : (<p className='text-red-500' >{par.PackageType}</p>)}</td>
+                                                            <td className="px-6 py-4 text-sm capitalize whitespace-nowrap ">{(par?.PackageType === 'Primary') ? (<p className='text-green-500' >{par.PackageType}</p>) : (<p className='text-red-500' >{par.PackageType}</p>)}</td>
                                                             <td className="px-6 py-4 text-sm font-medium whitespace-nowrap">
                                                                 <button onClick={() => showPartiModal(par.Token)} type="button" className="inline-flex items-center text-sm font-semibold text-blue-600 border border-transparent rounded-lg gap-x-2 hover:text-blue-800 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-500 dark:hover:text-blue-400 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">View</button>
                                                             </td>

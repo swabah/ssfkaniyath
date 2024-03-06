@@ -50,7 +50,7 @@ function ParticipateModal({ onClose, par, closePath }) {
               </div>
               <div class="font-medium text-[#071a2b] md:text-lg  capitalize flex items-center gap-x-2">
                 <p>Package Type : </p>
-                <p>{(par?.PackageType === 'Primary') ? (<p className='text-xl text-green-500' >{par.PackageType}</p>) : (<p className='text-xl text-red-500' >{par.PackageType}</p>)}</p>
+                <p>{par?.PackageType === 'Primary' ? (<p className='text-xl text-green-500' >{par.PackageType}</p>) : (<p className='text-xl text-red-500' >{par.PackageType}</p>)}</p>
               </div>
               <div class="font-medium text-[#071a2b] md:text-lg  capitalize flex items-center gap-x-2">
                 <p>Payment : </p>

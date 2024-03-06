@@ -126,6 +126,8 @@ function Challenge() {
         );
     };
 
+    console.log(PackageType);
+
     return (
         <div className='flex flex-col w-full h-full'>
             <div style={{ backgroundImage: `url(${datesfriuts})` }} className='bg-no-repeat bg-cover text-[#d3e3fd] flex flex-col items-center justify-center bg-center relative bg-[#071a2b] overflow-hidden w-full p-7 md:px-44 lg:px-24 xl:px-64 py-16 md:py-24 lg:py-32'>
@@ -137,19 +139,20 @@ function Challenge() {
             </div>
             <div id='regForm' className='w-full h-full pt-24 pb-12 lg:pt-32 p-7 md:px-20 lg:px-32 xl:px-44 '>
                 <form onSubmit={handleRegister} className='w-full h-auto space-y-7'>
-                    <div className='flex flex-col items-center justify-between w-full gap-4 md:flex-row lg:w-auto'>
+                    <div className='flex flex-col items-center justify-between w-full gap-10 md:gap-4 md:flex-row lg:w-auto'>
                         <div className='relative w-auto'>
-                            <img src={token} alt="Token NO:" className='w-32 -m-1 saturate-50' />
+                            <img src={token} alt="Token NO:" className='w-full -m-1 md:w-32 saturate-50' />
                             <div className='absolute inset-0 flex items-center justify-center w-full h-full'>
-                                <p className='mt-1 mr-8 text-xl font-medium tracking-wider text-white'>{Token}</p>
+                                <p className='mt-1 mr-16 text-6xl font-medium tracking-wider text-white md:mr-8 md:text-xl'>{Token}</p>
                             </div>
                         </div>
                         <select required className="w-full md:w-auto px-5 py-2 border border-[#d3e3fd] font-medium md:rounded-r-xl bg-[#d3e3fdb3] md:text-lg text-[#031525]" value={PackageType} onChange={(e) => setPackageType(e.target.value)}>
+                            <option value="" label="">Select Type</option>
                             <option value="Primary" label="Primary">Primary</option>
                             <option value="Secendary" label="Secendary">Secendary</option>
                         </select>
                     </div>
-                    <div className='grid w-full h-full grid-cols-1 gap-5 pt-10 lg:grid-cols-3 grid-rows-auto'>
+                    <div className='grid w-full h-full grid-cols-1 gap-5 pt-5 lg:pt-10 lg:grid-cols-3 grid-rows-auto'>
                         <input required className="w-full p-0 py-2 border-0 border-b border-gray-300 outline-none ring-0 placeholder:font-normal placeholder:opacity-50 placeholder:text-black " type="text" placeholder='Full name' name="fullName" value={fullName} onChange={(e) => setFullName(e.target.value)} />
                         <input required className="w-full p-0 py-2 border-0 border-b border-gray-300 outline-none ring-0 placeholder:font-normal placeholder:opacity-50 placeholder:text-black " type="number" placeholder='Mobile number' name="contact" value={Contact} onChange={(e) => setContact(e.target.value)} />
                         <select required className="w-full p-0 py-2 border-0 border-b border-gray-300 outline-none ring-0 placeholder:font-normal placeholder:opacity-50 placeholder:text-black" value={Package} onChange={(e) => setPackage(e.target.value)}>
