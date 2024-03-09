@@ -1,16 +1,19 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { FiXCircle } from 'react-icons/fi';
 import { useNavigate } from 'react-router-dom';
 import { db } from '../../../Firebase/Config';
-import { collection, deleteDoc, doc, getDocs, query, where } from 'firebase/firestore';
+import { collection, deleteDoc, doc, getDocs, query, updateDoc, where } from 'firebase/firestore';
 import { FcCancel, FcCheckmark } from 'react-icons/fc';
+import { AiTwotoneEdit } from "react-icons/ai";
 
 function ParticipateModal({ onClose, par, closePath }) {
   const navigate = useNavigate();
+  const [isEditing, setIsEditing] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [message, setMessage] = useState('');
 
   const deleteParticipateWithoutUid = async (par) => {
     try {
-      // Query for documents with the same combination of fields
       const querySnapshot = await getDocs(
         query(collection(db, 'challengeParticipates'),
           where('fullName', '==', par.fullName),
@@ -19,20 +22,51 @@ function ParticipateModal({ onClose, par, closePath }) {
         )
       );
 
-      // Check if any matching documents were found
       if (!querySnapshot.empty) {
-        // Delete the first matching document
         const documentToDelete = querySnapshot.docs[0];
         await deleteDoc(documentToDelete.ref);
         navigate(closePath);
       } else {
-        // Handle the case where no matching documents were found
         console.log('No matching documents found.');
       }
     } catch (error) {
       console.error('Error deleting document:', error);
     }
   };
+
+  const updateParticipateWithoutUid = async (par) => {
+    try {
+      setIsLoading(true);
+
+      const querySnapshot = await getDocs(
+        query(collection(db, 'challengeParticipates'),
+          where('fullName', '==', par.fullName),
+          where('Contact', '==', par.Contact),
+          where('Package', '==', par.Package)
+        )
+      );
+
+      if (!querySnapshot.empty) {
+        const documentToUpdate = querySnapshot.docs[0];
+        const documentRef = doc(db, 'challengeParticipates', documentToUpdate.id);
+
+        await updateDoc(documentRef, {
+          isPaid: !par.isPaid
+        });
+
+        setIsEditing(false);
+        setMessage('Update successful!');
+        navigate(closePath);
+      } else {
+        setMessage('No matching documents found.');
+      }
+    } catch (error) {
+      setMessage(`Error updating document: ${error.message}`);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
 
   return (
     <div className='fixed inset-0 z-30 transition-all duration-500 font-general-medium'>
@@ -52,9 +86,21 @@ function ParticipateModal({ onClose, par, closePath }) {
                 <p>Package Type : </p>
                 <p>{par?.PackageType === 'Primary' ? (<p className='text-xl text-green-500' >{par.PackageType}</p>) : (<p className='text-xl text-red-500' >{par.PackageType}</p>)}</p>
               </div>
-              <div class="font-medium text-[#071a2b] md:text-lg  capitalize flex items-center gap-x-2">
+              <div class="font-medium text-[#071a2b] md:text-lg capitalize flex items-center gap-x-2 cursor-pointer" onClick={() => updateParticipateWithoutUid(par)}>
                 <p>Payment : </p>
-                <p>{par?.isPaid ? (<FcCheckmark className='text-xl font-semibold' />) : (<FcCancel className='text-xl font-semibold' />)}</p>
+                {isEditing ? (
+                  <div className='flex items-center gap-x-2'>
+                    <p>{par?.isPaid ? (<FcCheckmark className='text-xl font-semibold' />) : (<FcCancel className='text-xl font-semibold' />)}</p>
+                    <AiTwotoneEdit className='text-xl cursor-pointer' onClick={() => setIsEditing(!isEditing)} />
+                  </div>
+                ) : (
+                  <div className='flex items-center gap-x-2'>
+                    <p>{par?.isPaid ? (<FcCheckmark className='text-xl font-semibold' />) : (<FcCancel className='text-xl font-semibold' />)}</p>
+                    <p>{par?.isPaid ? 'Paid' : 'Unpaid'}</p>
+                  </div>
+                )}
+                {isLoading && <p>Loading...</p>}
+                {message && <p>{message}</p>}
               </div>
               <div className='flex items-center'>
                 <p className='w-auto px-5 py-2 border-r border-[#d3e3fd] border-0 rounded-l-xl bg-[#d3e3fdb3] md:text-lg italic text-[#031525]'>#{par.Token}</p>

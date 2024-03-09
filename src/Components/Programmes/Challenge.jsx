@@ -157,12 +157,11 @@ function Challenge() {
                         <input required className="w-full p-0 py-2 border-0 border-b border-gray-300 outline-none ring-0 placeholder:font-normal placeholder:opacity-50 placeholder:text-black " type="number" placeholder='Mobile number' name="contact" value={Contact} onChange={(e) => setContact(e.target.value)} />
                         <select required className="w-full p-0 py-2 border-0 border-b border-gray-300 outline-none ring-0 placeholder:font-normal placeholder:opacity-50 placeholder:text-black" value={Package} onChange={(e) => setPackage(e.target.value)}>
                             <option value="" label="Select Package">Select your Package</option>
+                            <option value="250 g" label="250 g">250 g</option>
                             <option value="500 g" label="500 g">500 g</option>
                             <option value="1 kg" label="1 Kg">1 kg</option>
                             <option value="2 kg" label="2 Kg">2 kg</option>
                             <option value="3 kg" label="3 Kg">3 kg</option>
-                            <option value="4 kg" label="4 Kg">4 kg</option>
-                            <option value="5 kg" label="5 Kg">5 kg</option>
                         </select>
                         <textarea className="w-full p-0 py-2 border-0 border-b border-gray-300 outline-none lg:col-span-3 ring-0 placeholder:font-normal placeholder:opacity-50 placeholder:text-black " placeholder='Address' name="Address" value={Address} onChange={(e) => setAddress(e.target.value)} />
                     </div>
@@ -211,7 +210,22 @@ function Challenge() {
                             <FaCircleArrowRight className='text-lg lg:text-2xl' />
                         </div>
                     </Link>
-                    <p className='pt-5 font-medium text-2xl items-center text-[#071a2b]'>All Participates <span className='text-lg'> - {Participates.length} </span></p>
+                    <div className='flex flex-col items-center justify-between w-full h-auto gap-3 md:flex-row '>
+                        <div className='flex items-center w-full md:w-auto'>
+                            <p className='w-auto px-5 py-2  border-l border-[#d3e3fd] border-0 rounded-l-xl bg-[#031525] text-lg md:text-xl font-medium text-[#d3e3fd]'>{Participates.length}</p>
+                            <p className='w-full md:w-auto h-full px-5 py-2 border-r border-[#d3e3fd] border-0 rounded-r-xl bg-[#d3e3fdb3] text-lg md:text-xl italic text-[#031525]'>All Participates </p>
+                        </div>
+                        <div className='flex items-center w-auto gap-1'>
+                            <div className='flex items-center'>
+                                <p className='w-auto h-full px-5 py-3 border-r border-[#d3e3fd] border-0 rounded-l-xl bg-[#d3e3fdb3] text-lg md:text-xl italic text-[#031525]'><FcCheckmark /></p>
+                                <p className='w-auto px-5 py-2  border-l border-[#d3e3fd] border-0 rounded-r-xl bg-[#031525] md:text-lg font-medium text-[#d3e3fd]'>#{Participates.filter((par) => par.isPaid).length}</p>
+                            </div>
+                            <div className='flex items-center'>
+                                <p className='w-auto h-full px-5 py-3 border-r border-[#d3e3fd] border-0 rounded-l-xl bg-[#d3e3fdb3]  text-lg md:text-xl italic text-[#031525]'><FcCancel /></p>
+                                <p className='w-auto px-5 py-2  border-l border-[#d3e3fd] border-0 rounded-r-xl bg-[#031525] md:text-lg font-medium text-[#d3e3fd]'>#{Participates.filter((par) => !par.isPaid).length}</p>
+                            </div>
+                        </div>
+                    </div>
                     <div class=" overflow-x-auto">
                         <div class="min-w-full inline-block align-middle">
                             <div class="border rounded-lg shadow overflow-hidden  ">
