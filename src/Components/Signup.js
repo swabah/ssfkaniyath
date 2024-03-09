@@ -2,10 +2,11 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { auth, db } from '../Firebase/Config';
 import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
-import { addDoc, collection } from 'firebase/firestore';
+import {  doc, setDoc } from 'firebase/firestore';
 import samvidhanyatra from './assets/images/samvidhanyatra.jpg'
 import { AiOutlineLoading } from 'react-icons/ai';
 import { BsArrowDownCircle } from 'react-icons/bs';
+import { isMemberExists } from './auth/isExit';
 
 function Signup() {
   const [loading, setLoading] = useState(false);
@@ -25,30 +26,37 @@ function Signup() {
     try {
       setLoading(true);
 
-      const result = await createUserWithEmailAndPassword(auth, email, password);
+      createUserWithEmailAndPassword(auth, email, password).then(async (result) => {
+        await updateProfile(result.user, {
+          displayName: fullName,
+          email: result.user?.email,
+        });
 
-      await updateProfile(result.user, {
-        displayName: fullName,
-        email: email,
-      });
+        const userNameExists = await isMemberExists(fullName);
+        
+        if(!userNameExists){
+          const docRef = doc(db, 'members',result.user?.uid)
+          await setDoc(docRef, {
+            fullName,
+            Email: email,
+            Password: password,
+            Status: status,
+            Address: address,
+            Age: age,
+            Std: standard,
+            userUID: result.user.uid,
+            Created: new Date()
+          })  
+        }else{
+          alert('Member Exit')
+        }
 
-      const path = collection(db, 'members')
-      await addDoc(path, {
-        fullName,
-        Email: email,
-        Password: password,
-        Status: status,
-        Address: address,
-        Age: age,
-        Std: standard,
-        userUID: result.user.uid,
-        Created: new Date()
+        setIsSignUpCompleted(true);
+        setTimeout(() => {
+          navigate('/');
+        }, 2500); // Navigate to home after 2.5 seconds
       })
 
-      setIsSignUpCompleted(true);
-      setTimeout(() => {
-        navigate('/');
-      }, 2500); // Navigate to home after 2.5 seconds
     } catch (error) {
       alert(error.message);
     } finally {
@@ -62,17 +70,13 @@ function Signup() {
         <div className='z-10 flex flex-col items-center gap-2 '>
           <p className='text-[#39b54a] font-semibold text-3xl lg:text-4xl'>Welcome to</p>
           <h1 className='text-5xl font-bold text-center lg:text-7xl'>SSF Kaniyath</h1>
-          <a href='#SignupForm' className='pt-8 text-xl md:text-2xl lg:text-3xl  shadow-lg  animate-bounce '><BsArrowDownCircle /></a>
+          <a href='#SignupForm' className='pt-8 text-xl shadow-lg md:text-2xl lg:text-3xl animate-bounce '><BsArrowDownCircle /></a>
         </div>
         <div className='absolute inset-0 w-full h-full bg-[#071a2b] opacity-70'></div>
       </div>
-      <div className='h-full w-full flex flex-col item-center gap-12 lg:gap-20 p-7 py-20 md:p-20 lg:px-44 justify-center'>
-        {/* <div className='flex flex-col text-start lg:text-center space-y-1.5'>
-          <p className='text-[#39b54a] text-3xl lg:text-4xl'>Welcome to</p>
-          <h1 className='text-[#fff] text-5xl xl:text-6xl'>SSF Kaniyath </h1>
-        </div> */}
+      <div className='flex flex-col justify-center w-full h-full gap-12 py-20 item-center lg:gap-20 p-7 md:p-20 lg:px-44'>
         <form id='SignupForm' onSubmit={handleSignup} className='w-full h-auto space-y-7'>
-          <div className='text-white grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 grid-rows-auto w-full h-full gap-5'>
+          <div className='grid w-full h-full grid-cols-1 gap-5 text-white lg:grid-cols-2 xl:grid-cols-3 grid-rows-auto'>
             <input required className="w-full  py-2 border-0 border-b-2 border-[#d3e3fdb3] outline-none  bg-transparent placeholder:font-normal placeholder:opacity-50 placeholder:text-[#d3e3fd]" type="email" name="email" placeholder='Email' value={email} onChange={(e) => setEmail(e.target.value)} />
             <input required className="w-full  py-2 border-0 border-b-2 border-[#d3e3fdb3] outline-none  bg-transparent placeholder:font-normal placeholder:opacity-50 placeholder:text-[#d3e3fd] " type="password" placeholder='Phone Number ( as Password )' name="password" value={password} onChange={(e) => setPassword(e.target.value)} />
             <select required className="w-full  py-2 border-0 border-b-2 border-[#d3e3fdb3] outline-none  bg-transparent placeholder:font-normal placeholder:opacity-50 placeholder:text-[#d3e3fd]" placeholder="Select your standard" value={status} onChange={(e) => setStatus(e.target.value)}>
@@ -114,7 +118,7 @@ function Signup() {
             </select>
             <textarea required className="lg:col-span-2 xl:col-span-3 w-full  py-2 border-0 border-b-2 border-[#d3e3fdb3] outline-none  bg-transparent placeholder:font-normal placeholder:opacity-50 placeholder:text-[#d3e3fd]" placeholder='Address' name="Address" value={address} onChange={(e) => setAddress(e.target.value)} />
           </div>
-          <div className='w-full flex flex-col gap-5 md:flex-row items-center justify-between'>
+          <div className='flex flex-col items-center justify-between w-full gap-5 md:flex-row'>
             {loading ? (
               <AiOutlineLoading className='w-auto animate-spin text-[#fff] text-2xl mr-2' />
             ) : isSignUpCompleted ? (

@@ -8,8 +8,9 @@ import datesfriuts from '../assets/images/datesfriuts.jpg'
 import { BsArrowDownCircle } from "react-icons/bs";
 import { Link, useNavigate } from 'react-router-dom';
 import ParticipateModal from '../assets/Challenges/ParticipateModal';
-import { FaCircleArrowRight } from "react-icons/fa6";
+import { FaCircleArrowLeft, FaCircleArrowRight } from "react-icons/fa6";
 import token from '../assets/images/token.png'
+import { useAuth } from '../auth/auths';
 
 function Challenge() {
     const [loading, setLoading] = useState(false);
@@ -28,6 +29,7 @@ function Challenge() {
     const [submitDisabled, setSubmitDisabled] = useState(true);
     const [showModalId, setShowModalId] = useState(null);
     const navigate = useNavigate();
+    const { user } = useAuth()
 
     const Token = 100 + Participates.length;
 
@@ -137,7 +139,7 @@ function Challenge() {
                 </div>
                 <div className='absolute inset-0 w-full h-full bg-[#071a2b] opacity-50'></div>
             </div>
-            <div id='regForm' className='w-full h-full pt-24 pb-12 lg:pt-32 p-7 md:px-20 lg:px-32 xl:px-44 '>
+            <div id='regForm' className='flex flex-col w-full h-full gap-10 pt-24 pb-12 lg:pt-32 p-7 md:px-20 lg:px-32 xl:px-44 '>
                 <form onSubmit={handleRegister} className='w-full h-auto space-y-7'>
                     <div className='flex flex-col items-center justify-between w-full gap-10 md:gap-4 md:flex-row lg:w-auto'>
                         <div className='relative w-auto'>
@@ -200,8 +202,14 @@ function Challenge() {
                         )}
                     </div>
                 </form>
+                <Link to='/'>
+                    <div className='w-full lg:w-auto p-2 px-6 rounded font-medium lg:text-xl bg-[#071a2b] flex justify-between items-center text-[#d3e3fd]'>
+                        <p>Home Page </p>
+                        <FaCircleArrowLeft className='text-lg lg:text-2xl' />
+                    </div>
+                </Link>
             </div>
-            {(Participates.length > 0 && (auth?.currentUser?.email === 'ahmedswabah922@gmail.com' || 'kmuhammedktr@gmail.com')) && <>
+            {(user === 'ahmedswabah922@gmail.com' || 'kmuhammedktr@gmail.com') && <>
                 <hr className='my-8' />
                 <div class="pb-14 lg:pb-20 p-7 md:px-20 lg:px-32 xl:px-44  flex flex-col gap-y-5">
                     <Link to='/challenge/admin'>
