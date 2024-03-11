@@ -185,23 +185,27 @@ function Admin() {
                                                 ) : (
                                                     <>
                                                         <tr>
-                                                            <td className="px-6 py-4 whitespace-nowrap font-medium text-[#071a2b] capitalize">
-                                                                <input required className="w-full p-0 py-2 border-0 border-b border-gray-300 outline-none ring-0 placeholder:font-normal placeholder:opacity-50 placeholder:text-black " type="text" placeholder='Type Expense' name="contact" value={Expence} onChange={(e) => setExpence(e.target.value)} />
+                                                            <td className="px-6 py-4 whitespace-nowrap  text-[#071a2b] capitalize">
+                                                                <input required className="text-sm font-normal w-full p-0 py-2 border-0 border-b border-gray-300 outline-none ring-0 placeholder:font-normal placeholder:opacity-50 placeholder:text-black " type="text" placeholder='Type Expense' name="contact" value={Expence} onChange={(e) => setExpence(e.target.value)} />
                                                             </td>
-                                                            <td className="px-6 py-4 flex items-center justify-between whitespace-nowrap text-sm font-medium text-[#071a2b] capitalize">
-                                                                <input className='w-1/2' required placeholder='Cash' value={ExpenceCash} type='number' onChange={(e) => setExpenceCash(e.target.value)} />
-                                                                <button type="submit"><BsClipboard2PlusFill className='text-xl' /></button>
+                                                            <td className="px-6 py-4 flex items-center gap-5 justify-between whitespace-nowrap text-sm text-[#071a2b] capitalize">
+                                                                <input className="text-sm font-normal w-20 md:w-full p-0 py-2 border-0 border-b border-gray-300 outline-none ring-0 placeholder:font-normal placeholder:opacity-50 placeholder:text-black " required placeholder='Cash' value={ExpenceCash} type='number' onChange={(e) => setExpenceCash(e.target.value)} />
+                                                                <button type="submit"><BsClipboard2PlusFill  /></button>
                                                             </td>
                                                         </tr>
                                                         {ExpenceList.map((ex) => (
                                                             <tr key={ex.id}>
-                                                                <td className="px-6 py-4 whitespace-nowrap font-medium text-[#071a2b] capitalize">{ex.Expence}</td>
-                                                                <td className="px-6 py-4 flex items-center justify-between whitespace-nowrap text-sm font-medium text-[#071a2b] capitalize">
-                                                                    <p>{ex.ExpenceCash}</p>
-                                                                    <button onClick={() => deleteExpenceWithoutUid(ex)}><RiDeleteBin6Line  className='text-xl' /></button>
+                                                                <td className="px-6 py-4 text-sm font-normal whitespace-nowrap text-[#071a2b] capitalize">{ex.Expence}</td>
+                                                                <td className="px-6 py-4 flex items-center justify-between whitespace-nowrap text-sm  text-[#071a2b] capitalize">
+                                                                    <p className='text-sm font-normal'>{ex.ExpenceCash}</p>
+                                                                    <button onClick={() => deleteExpenceWithoutUid(ex)}><RiDeleteBin6Line   /></button>
                                                                 </td>
                                                             </tr>
                                                         ))}
+                                                        <tr>
+                                                            <td className="text-sm font-normal px-6 py-4 whitespace-nowrap text-[#071a2b] capitalize">Totel Expence :</td>
+                                                            <td className="text-lg font-medium px-6 py-4 flex items-center justify-between whitespace-nowrap text-[#071a2b] capitalize">{ExpenceList.reduce((total,ex) => total + parseFloat(ex.ExpenceCash),0)}</td>
+                                                        </tr>
                                                     </>
                                                 )}
                                             </tbody>
@@ -223,28 +227,32 @@ function Admin() {
                                 <p>Primary</p>
                                 <span> {Participates.filter((par) => par.Package === '1 kg' && par.PackageType === 'Primary').length} </span>
                             </div>
-                            <div className='grid grid-cols-1 p-6 lg:grid-cols-2'>
-                                <p className='col-span-2 pb-2 text-xl'>
-                                    Challenge Rate : <span className='text-xl'>330</span>
+                            <div className='grid grid-cols-1 py-3 gap-1 grid-rows-auto'>
+                                <p className=' lg:text-lg'>
+                                    Challenge Rate : <span>330</span>
                                 </p>
-                                <p className='text-xl'>
-                                    Shop Rate : <span className='text-xl'>221.66</span>
+                                <p className='lg:text-lg'>
+                                    Shop Rate : <span>221.66</span>
                                 </p>
-                                <p className='text-xl'>
-                                    Commition : <span className='text-xl'>109.66</span>
+                                <p className='lg:text-lg'>
+                                    Commition : <span>109.66</span>
                                 </p>
-                                <hr className='col-span-2 my-1.5' />
-                                <p className='text-xl'>
-                                    Totel : <span className='text-lg'>{Participates.filter((par) => par.Package === '1 kg' && par.PackageType === 'Primary').length} * 330 =  {Participates.filter((par) => par.Package === '1 kg' && par.PackageType === 'Primary').length * 330}</span>
+                                <hr className='my-1.5' />
+                                <p className='lg:text-lg'>
+                                    Totel : <span>{Participates.filter((par) => par.Package === '1 kg' && par.PackageType === 'Primary').length} * 330 =  {Participates.filter((par) => par.Package === '1 kg' && par.PackageType === 'Primary').length * 330}</span>
                                 </p>
-                                <p className='text-xl'>
-                                    Profit : <span className='text-lg'>{Participates.filter((par) => par.Package === '1 kg' && par.PackageType === 'Primary').length} * 109 =  {Participates.filter((par) => par.Package === '1 kg' && par.PackageType === 'Primary').length * 109}</span>
+                                <p className='lg:text-lg'>
+                                    Profit : <span>{Participates.filter((par) => par.Package === '1 kg' && par.PackageType === 'Primary').length} * 109 =  {Participates.filter((par) => par.Package === '1 kg' && par.PackageType === 'Primary').length * 109}</span>
                                 </p>
-                                <p className='text-xl'>
-                                    Arrival : <span className='text-lg'>{Participates.filter((par) => par.Package === '1 kg' && par.PackageType === 'Primary' && par.isPaid).length} * 330 =  {Participates.filter((par) => par.Package === '1 kg' && par.PackageType === 'Primary' && par.isPaid).length * 330}</span>
+                                <hr className='my-1.5' />
+                                <p className='lg:text-lg'>
+                                    Arrival : <span>{Participates.filter((par) => par.Package === '1 kg' && par.PackageType === 'Primary' && par.isPaid).length} * 330 =  {Participates.filter((par) => par.Package === '1 kg' && par.PackageType === 'Primary' && par.isPaid).length * 330}</span>
                                 </p>
-                                <p className='text-xl'>
-                                    Pending : <span className='text-lg'>{Participates.filter((par) => par.Package === '1 kg' && par.PackageType === 'Primary' && !par.isPaid).length} * 330 =  {Participates.filter((par) => par.Package === '1 kg' && par.PackageType === 'Primary' && !par.isPaid).length * 330}</span>
+                                <p className='lg:text-lg'>
+                                    Arrival Profit : <span>{Participates.filter((par) => par.Package === '1 kg' && par.PackageType === 'Primary' && par.isPaid).length} * 109 =  {Participates.filter((par) => par.Package === '1 kg' && par.PackageType === 'Primary' && par.isPaid).length * 109}</span>
+                                </p>
+                                <p className='lg:text-lg'>
+                                    Pending : <span>{Participates.filter((par) => par.Package === '1 kg' && par.PackageType === 'Primary' && !par.isPaid).length} * 330 =  {Participates.filter((par) => par.Package === '1 kg' && par.PackageType === 'Primary' && !par.isPaid).length * 330}</span>
                                 </p>
                             </div>
                             <TECollapse
@@ -302,28 +310,32 @@ function Admin() {
                                 <p>Secendary</p>
                                 <span> {Participates.filter((par) => par.PackageType === 'Secendary').length} </span>
                             </div>
-                            <div className='grid grid-cols-1 p-6 lg:grid-cols-2'>
-                                <p className='col-span-2 pb-2 text-xl'>
-                                    Challenge Rate : <span className='text-xl'>260</span>
+                            <div className='grid grid-cols-1 py-3 gap-1 grid-rows-auto'>
+                                <p className='lg:text-lg'>
+                                    Challenge Rate : <span >260</span>
                                 </p>
-                                <p className='text-xl '>
-                                    Shop Rate : <span className='text-xl'>135.6</span>
+                                <p className='lg:text-lg '>
+                                    Shop Rate : <span >135.6</span>
                                 </p>
-                                <p className='text-xl'>
-                                    Commition Rate : <span className='text-xl'>125</span>
+                                <p className='lg:text-lg'>
+                                    Commition Rate : <span >125</span>
                                 </p>
-                                <hr className='col-span-2 my-1.5' />
-                                <p className='text-xl'>
-                                    Totel : <span className='text-lg'>{Participates.filter((par) => par.PackageType === 'Secendary').length} * 260 =  {Participates.filter((par) => par.PackageType === 'Secendary').length * 260}</span>
+                                <hr className='my-1.5' />
+                                <p className='lg:text-lg'>
+                                    Totel : <span >{Participates.filter((par) => par.PackageType === 'Secendary').length} * 260 =  {Participates.filter((par) => par.PackageType === 'Secendary').length * 260}</span>
                                 </p>
-                                <p className='text-xl'>
-                                    Profit : <span className='text-lg'>{Participates.filter((par) => par.PackageType === 'Secendary').length} * 124.5 =  {Participates.filter((par) => par.PackageType === 'Secendary').length * 124.5}</span>
+                                <p className='lg:text-lg'>
+                                    Profit : <span >{Participates.filter((par) => par.PackageType === 'Secendary').length} * 124.5 =  {Participates.filter((par) => par.PackageType === 'Secendary').length * 124.5}</span>
                                 </p>
-                                <p className='text-xl'>
-                                    Arrival : <span className='text-lg'>{Participates.filter((par) => par.PackageType === 'Secendary' && par.isPaid).length} * 260 =  {Participates.filter((par) => par.PackageType === 'Secendary' && par.isPaid).length * 260}</span>
+                                <hr className='my-1.5' />
+                                <p className='lg:text-lg'>
+                                    Arrival : <span >{Participates.filter((par) => par.PackageType === 'Secendary' && par.isPaid).length} * 260 =  {Participates.filter((par) => par.PackageType === 'Secendary' && par.isPaid).length * 260}</span>
                                 </p>
-                                <p className='text-xl'>
-                                    Pending : <span className='text-lg'>{Participates.filter((par) => par.PackageType === 'Secendary' && !par.isPaid).length} * 260 =  {Participates.filter((par) => par.PackageType === 'Secendary' && !par.isPaid).length * 260}</span>
+                                <p className='lg:text-lg'>
+                                    Arrival Profit : <span >{Participates.filter((par) => par.PackageType === 'Secendary' && par.isPaid).length} * 124.5 =  {Participates.filter((par) => par.PackageType === 'Secendary' && par.isPaid).length * 124.5}</span>
+                                </p>
+                                <p className='lg:text-lg'>
+                                    Pending : <span>{Participates.filter((par) => par.PackageType === 'Secendary' && !par.isPaid).length} * 260 =  {Participates.filter((par) => par.PackageType === 'Secendary' && !par.isPaid).length * 260}</span>
                                 </p>
                             </div>
                             <TECollapse
@@ -383,28 +395,32 @@ function Admin() {
                                 <p>500 g</p>
                                 <span> {Participates.filter((par) => par.Package === '500 g').length} </span>
                             </div>
-                            <div className='grid grid-cols-1 p-6 lg:grid-cols-2'>
-                                <p className='col-span-2 pb-2 text-xl'>
-                                    Challenge Rate : <span className='text-xl'>165</span>
+                            <div className='grid grid-cols-1 py-3 gap-1 grid-rows-auto'>
+                                <p className='lg:text-lg'>
+                                    Challenge Rate : <span >165</span>
                                 </p>
-                                <p className='text-xl'>
-                                    Shop Rate : <span className='text-xl'>110.5</span>
+                                <p className='lg:text-lg'>
+                                    Shop Rate : <span >110.5</span>
                                 </p>
-                                <p className='text-xl'>
-                                    Commition : <span className='text-xl'>54.5</span>
+                                <p className='lg:text-lg'>
+                                    Commition : <span >54.5</span>
                                 </p>
-                                <hr className='col-span-2 my-1.5' />
-                                <p className='text-xl'>
-                                    Totel : <span className='text-lg'>{Participates.filter((par) => par.Package === '500 g').length} * 165 =  {Participates.filter((par) => par.Package === '500 g').length * 165}</span>
+                                <hr className='my-1.5' />
+                                <p className='lg:text-lg'>
+                                    Totel : <span >{Participates.filter((par) => par.Package === '500 g').length} * 165 =  {Participates.filter((par) => par.Package === '500 g').length * 165}</span>
                                 </p>
-                                <p className='text-xl'>
-                                    Profit : <span className='text-lg'>{Participates.filter((par) => par.Package === '500 g').length} * 54.5 =  {Participates.filter((par) => par.Package === '500 g').length * 54.5}</span>
+                                <p className='lg:text-lg'>
+                                    Profit : <span >{Participates.filter((par) => par.Package === '500 g').length} * 54.5 =  {Participates.filter((par) => par.Package === '500 g').length * 54.5}</span>
                                 </p>
-                                <p className='text-xl'>
-                                    Arrival : <span className='text-lg'>{Participates.filter((par) => par.Package === '500 g' && par.isPaid).length} * 165 =  {Participates.filter((par) => par.Package === '500 g' && par.isPaid).length * 165}</span>
+                                <hr className='my-1.5' />
+                                <p className='lg:text-lg'>
+                                    Arrival : <span >{Participates.filter((par) => par.Package === '500 g' && par.isPaid).length} * 165 =  {Participates.filter((par) => par.Package === '500 g' && par.isPaid).length * 165}</span>
                                 </p>
-                                <p className='text-xl'>
-                                    Pending : <span className='text-lg'>{Participates.filter((par) => par.Package === '500 g' && !par.isPaid).length} * 165 =  {Participates.filter((par) => par.Package === '500 g' && !par.isPaid).length * 165}</span>
+                                <p className='lg:text-lg'>
+                                    Arrival Profit : <span >{Participates.filter((par) => par.Package === '500 g' && par.isPaid).length} * 54.5 =  {Participates.filter((par) => par.Package === '500 g' && par.isPaid).length * 54.5}</span>
+                                </p>
+                                <p className='lg:text-lg'>
+                                    Pending : <span >{Participates.filter((par) => par.Package === '500 g' && !par.isPaid).length} * 165 =  {Participates.filter((par) => par.Package === '500 g' && !par.isPaid).length * 165}</span>
                                 </p>
                             </div>
                             <TECollapse
@@ -461,28 +477,32 @@ function Admin() {
                                 <p>250 g</p>
                                 <span> {Participates.filter((par) => par.Package === '250 g').length} </span>
                             </div>
-                            <div className='grid grid-cols-1 p-6 lg:grid-cols-2'>
-                                <p className='col-span-2 pb-2 text-xl'>
-                                    Challenge Rate : <span className='text-xl'>82.5</span>
+                            <div className='grid grid-cols-1 py-3 gap-1 grid-rows-auto'>
+                                <p className='lg:text-lg'>
+                                    Challenge Rate : <span >82.5</span>
                                 </p>
-                                <p className='text-xl'>
-                                    Shop Rate : <span className='text-xl'>55.66</span>
+                                <p className='lg:text-lg'>
+                                    Shop Rate : <span >55.66</span>
                                 </p>
-                                <p className='text-xl'>
-                                    Commition : <span className='text-xl'>26.5</span>
+                                <p className='lg:text-lg'>
+                                    Commition : <span >26.5</span>
                                 </p>
-                                <hr className='col-span-2 my-1.5' />
-                                <p className='text-xl'>
-                                    Totel : <span className='text-lg'>{Participates.filter((par) => par.Package === '250 g').length} * 82 =  {Participates.filter((par) => par.Package === '500 g').length * 82}</span>
+                                <hr className=' my-1.5' />
+                                <p className='lg:text-lg'>
+                                    Totel : <span >{Participates.filter((par) => par.Package === '250 g').length} * 82 =  {Participates.filter((par) => par.Package === '250 g').length * 82}</span>
                                 </p>
-                                <p className='text-xl'>
-                                    Profit : <span className='text-lg'>{Participates.filter((par) => par.Package === '250 g').length} * 26.5 =  {Participates.filter((par) => par.Package === '250 g').length * 26.5}</span>
+                                <p className='lg:text-lg'>
+                                    Profit : <span >{Participates.filter((par) => par.Package === '250 g').length} * 26.5 =  {Participates.filter((par) => par.Package === '250 g').length * 26.5}</span>
                                 </p>
-                                <p className='text-xl'>
-                                    Arrival : <span className='text-lg'>{Participates.filter((par) => par.Package === '250 g' && par.isPaid).length} * 82 =  {Participates.filter((par) => par.Package === '250 g' && par.isPaid).length * 82}</span>
+                                <hr className='my-1.5' />
+                                <p className='lg:text-lg'>
+                                    Arrival : <span >{Participates.filter((par) => par.Package === '250 g' && par.isPaid).length} * 82 =  {Participates.filter((par) => par.Package === '250 g' && par.isPaid).length * 82}</span>
                                 </p>
-                                <p className='text-xl'>
-                                    Pending : <span className='text-lg'>{Participates.filter((par) => par.Package === '250 g' && !par.isPaid).length} * 82 =  {Participates.filter((par) => par.Package === '250 g' && !par.isPaid).length * 82}</span>
+                                <p className='lg:text-lg'>
+                                    Arrival Profit : <span >{Participates.filter((par) => par.Package === '250 g' && par.isPaid).length} * 26.5 =  {Participates.filter((par) => par.Package === '250 g' && par.isPaid).length * 26.5}</span>
+                                </p>
+                                <p className='lg:text-lg'>
+                                    Pending : <span >{Participates.filter((par) => par.Package === '250 g' && !par.isPaid).length} * 82 =  {Participates.filter((par) => par.Package === '250 g' && !par.isPaid).length * 82}</span>
                                 </p>
                             </div>
                             <TECollapse
