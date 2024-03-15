@@ -209,8 +209,7 @@ function Challenge() {
                     </div>
                 </Link>
             </div>
-            {(user === 'ahmedswabah922@gmail.com' || 'kmuhammedktr@gmail.com') && <>
-                <hr className='my-8' />
+            {(user === 'ahmedswabah922@gmail.com' || 'kmuhammedktr@gmail.com' || 'zainul203clt@gmail.com' || 'aneesek9@gmail.com') && <>                <hr className='my-8' />
                 <div class="pb-14 lg:pb-20 p-7 md:px-20 lg:px-32 xl:px-44  flex flex-col gap-y-5">
                     <Link to='/challenge/admin'>
                         <div className='w-full lg:w-auto p-2 px-6 rounded font-medium lg:text-xl bg-[#071a2b] flex justify-between items-center text-[#d3e3fd]'>
