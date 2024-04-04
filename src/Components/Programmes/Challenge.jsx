@@ -11,6 +11,7 @@ import ParticipateModal from '../assets/Challenges/ParticipateModal';
 import { FaCircleArrowLeft, FaCircleArrowRight } from "react-icons/fa6";
 import token from '../assets/images/token.png'
 import { useAuth } from '../auth/auths';
+import closed from '../assets/images/closed.png'
 
 function Challenge() {
     const [loading, setLoading] = useState(false);
@@ -140,7 +141,7 @@ function Challenge() {
                 <div className='absolute inset-0 w-full h-full bg-[#071a2b] opacity-50'></div>
             </div>
             <div id='regForm' className='flex flex-col w-full h-full gap-10 pt-24 pb-12 lg:pt-32 p-7 md:px-20 lg:px-32 xl:px-44 '>
-                <form onSubmit={handleRegister} className='w-full h-auto space-y-7'>
+                {/* <form onSubmit={handleRegister} className='w-full h-auto space-y-7'>
                     <div className='flex flex-col items-center justify-between w-full gap-10 md:gap-4 md:flex-row lg:w-auto'>
                         <div className='relative w-auto'>
                             <img src={token} alt="Token NO:" className='w-full -m-1 md:w-32 saturate-50' />
@@ -201,7 +202,11 @@ function Challenge() {
                             </button>
                         )}
                     </div>
-                </form>
+                </form> */}
+                <div className='w-full h-full items-center justify-center  py-5 lg:py-10 gap-5 flex flex-col'>
+                    <img src={closed} alt="" className='w-64' />
+                    <h2 className='text-2xl font-medium'>Closed Registration</h2>
+                </div>
                 <Link to='/'>
                     <div className='w-full lg:w-auto p-2 px-6 rounded font-medium lg:text-xl bg-[#071a2b] flex justify-between items-center text-[#d3e3fd]'>
                         <p>Home Page </p>
@@ -209,7 +214,8 @@ function Challenge() {
                     </div>
                 </Link>
             </div>
-            {(user === 'ahmedswabah922@gmail.com' || 'kmuhammedktr@gmail.com' || 'zainul203clt@gmail.com' || 'aneesek9@gmail.com') && <>                <hr className='my-8' />
+            {/* {(user === 'ahmedswabah922@gmail.com' || 'kmuhammedktr@gmail.com' || 'zainul203clt@gmail.com' || 'aneesek9@gmail.com') && <>
+                <hr className='my-8' />
                 <div class="pb-14 lg:pb-20 p-7 md:px-20 lg:px-32 xl:px-44  flex flex-col gap-y-5">
                     <Link to='/challenge/admin'>
                         <div className='w-full lg:w-auto p-2 px-6 rounded font-medium lg:text-xl bg-[#071a2b] flex justify-between items-center text-[#d3e3fd]'>
@@ -290,7 +296,7 @@ function Challenge() {
                         />
                     )}
                 </React.Fragment>
-            ))}
+            ))} */}
 
         </div>
     )

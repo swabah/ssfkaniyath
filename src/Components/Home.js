@@ -64,7 +64,7 @@ function Home() {
                 <LuCode2 className='text-[#d3e3fdb3] text-2xl mt-16' />
               </div>
             ))}
-            {userList.filter((user) => user.Status === 'Secretary').map((mem) => (
+            {userList.filter((user) => user.Status === 'G.Secretary').map((mem) => (
               <div className='hover:bg-[#0d2136] cursor-pointer rounded-xl p-5 px-8 bg-[#071a2b] w-full '>
                 <p className='font-medium text-[#d3e3fd] capitalize text-xl tracking-wide'>{mem.fullName}</p>
                 <p className=' font-thin text-lg text-[#d3e3fdb3]'>( {mem.Status} )</p>
@@ -120,7 +120,7 @@ function Home() {
                 <LuCode2 className='text-[#d3e3fdb3] text-2xl mt-16' />
               </div>
             ))}
-            {userList.filter((user) => user.Status === 'Secretariat member').map((mem) => (
+            {userList.filter((user) => user.Status === 'secretariat Member').map((mem) => (
               <div className='hover:bg-[#0d2136] cursor-pointer rounded-xl p-5 px-8 bg-[#071a2b] w-full '>
                 <p className='font-medium text-[#d3e3fd] capitalize text-xl tracking-wide'>{mem.fullName}</p>
                 <p className=' font-thin text-lg text-[#d3e3fdb3]'>( {mem.Status} )</p>
